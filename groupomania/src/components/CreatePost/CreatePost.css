@@ -1,0 +1,11 @@
+.title-form, .content-form {
+    border-radius: 5px !important;
+}
+
+.input-group>.form-control, .input-group>.form-select {
+    width: unset;
+}
+
+.upload-form {
+    width: 100%;
+}
