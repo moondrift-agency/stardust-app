@@ -4,13 +4,13 @@ import thunk from "redux-thunk";
 
 //reducers
 import userReducer from "./reducers/userReducer";
-import postReducer from "./reducers/postsReducer";
+import { contentReducer } from "./reducers/contentReducer";
 
 const middleware = [thunk];
 
 const reducers = combineReducers({
     user: userReducer,
-    content: postReducer
+    content: contentReducer
 });
 
 const store = createStore(

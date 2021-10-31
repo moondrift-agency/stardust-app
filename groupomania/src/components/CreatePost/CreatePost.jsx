@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 
-import { createPost} from "../../services/posts.service";
+import { createPost } from "../../services/posts.service";
 
 import './CreatePost.css';
 
-const CreatePost = (props) => {
+const CreatePost = ({addClickHandler}) => {
     const [title, setTitle] = useState();
     const [content, setContent] = useState();
     const [file, setFile] = useState();
@@ -19,7 +19,12 @@ const CreatePost = (props) => {
         postData.append('content',content);
         postData.append('file',file);
 
-        createPost(postData);
+        let postCreated = undefined;
+        createPost(postData).then((post) => {
+            postCreated = post;
+        })
+
+        console.log(postCreated)
     }
 
     return(

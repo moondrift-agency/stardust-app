@@ -48,3 +48,8 @@ export const createComment = (message) => {
             return response.data;
         })
 }
+
+export const getSinglePost = (id) => {
+    return axios
+        .get(API_URL)
+}

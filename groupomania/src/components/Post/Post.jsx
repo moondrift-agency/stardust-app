@@ -1,11 +1,21 @@
 import { deletePost } from "../../services/posts.service";
+import {useEffect, useState} from "react";
+import {connect, useSelector} from "react-redux";
 
 const Post = ({id,content,attachment,title,createdAt,User,Likes,Comments,deleteClickHandler}) => {
-    const userProfile = "/profile/"+User.id;
+    const userProfile = "/user/"+User.id;
+    let [Owned, setOwned] = useState(false);
+    const currentUser = useSelector((state) => state.user.data);
+
+    useEffect(() => {
+        if(currentUser.id === User.id ){
+            setOwned(true);
+        }
+    }, [])
 
     const onDeleteClick = () => {
-        deleteClickHandler();
         deletePost(id);
+        deleteClickHandler(id);
     }
 
     return(
@@ -21,17 +31,24 @@ const Post = ({id,content,attachment,title,createdAt,User,Likes,Comments,deleteC
 
                         </div>
                     </div>
-                    <div>
-                        <div className="dropdown">
-                            <button className="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i className="fas fa-ellipsis-h"></i>
-                            </button>
-                            <ul className="dropdown-menu dropdown-menu-right">
-                                <li className="dropdown-item" type="button" href="#">Modifier</li>
-                                <li className="dropdown-item red-li-button" onClick={onDeleteClick} type="button" href="#"><i className="fas fa-trash"></i> Supprimer</li>
-                            </ul>
+                    {Owned ? (
+                        <div>
+                            <div className="dropdown">
+                                <button className="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i className="fas fa-ellipsis-h"></i>
+                                </button>
+                                <ul className="dropdown-menu dropdown-menu-right">
+                                    <li className="dropdown-item" type="button" href="#">Modifier</li>
+                                    <li className="dropdown-item red-li-button" onClick={onDeleteClick} type="button" href="#"><i className="fas fa-trash"></i> Supprimer</li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div>
+
+                        </div>
+                    )
+                    }
                 </div>
             </div>
             <div className="card-body">
@@ -51,4 +68,11 @@ const Post = ({id,content,attachment,title,createdAt,User,Likes,Comments,deleteC
     );
 }
 
-export default Post;
+function mapStateToProps(state) {
+    const { user } = state.user.data;
+    return {
+        user,
+    }
+}
+
+export default connect(mapStateToProps)(Post);

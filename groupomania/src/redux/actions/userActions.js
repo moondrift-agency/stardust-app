@@ -9,33 +9,7 @@ import {
 } from "../types";
 
 import { postLogin, postSignup, deleteLocalStorage } from "../../services/auth.service";
-import { getUser, updateProfile } from "../../services/user.service";
-
-export const upProfile = (id) => (dispatch) => {
-    return updateProfile(id).then(
-        (data) => {
-            dispatch({
-                type: SET_AUTHENTICATED,
-            });
-
-            dispatch({
-                type: UPDATE_USERDATA,
-                payload: data.data
-            });
-
-            return Promise.resolve();
-        },
-        (error) => {
-            /*const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();*/
-            return Promise.reject();
-        }
-    )
-}
+import { getUser } from "../../services/user.service";
 
 export const signup = (newUserData) => (dispatch) => {
     return postSignup(newUserData).then(

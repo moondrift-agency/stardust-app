@@ -152,7 +152,7 @@ exports.createPost = async (req, res) => {
 
       res
         .status(201)
-        .json({ post: post, messageRetour: "Votre post est ajouté" });
+        .json({ post: post, messageRetour: "Votre post a bien été créé !" });
     } else {
       res.status(400).send({ error: "Erreur " });
     }
