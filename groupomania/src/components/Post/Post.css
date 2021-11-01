@@ -1,0 +1,8 @@
+.card-link {
+    width: 50%;
+    text-decoration: none !important;
+}
+
+.dropdown-toggle::after {
+    display: none;
+}

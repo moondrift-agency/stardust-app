@@ -37,9 +37,9 @@ export const deletePost = (id) => {
         })
 }
 
-export const createComment = (message) => {
+export const createComment = (id, message) => {
     return axios
-        .post(API_URL + "comments" , message, {
+        .post(API_URL + id + "/comments" , message, {
             headers: {
                 'Authorization': authHeader()
             }
@@ -47,9 +47,4 @@ export const createComment = (message) => {
         .then((response) => {
             return response.data;
         })
-}
-
-export const getSinglePost = (id) => {
-    return axios
-        .get(API_URL)
 }

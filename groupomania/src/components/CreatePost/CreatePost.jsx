@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 
+import { useForm } from "react-hook-form";
+
 import { createPost } from "../../services/posts.service";
 
 import './CreatePost.css';
@@ -11,6 +13,8 @@ const CreatePost = ({addClickHandler}) => {
     const [content, setContent] = useState();
     const [file, setFile] = useState();
 
+    const { postForm , handleSubmit } = useForm(); //à tester
+
     const onSend = (e) => {
         e.preventDefault();
 
@@ -19,18 +23,15 @@ const CreatePost = ({addClickHandler}) => {
         postData.append('content',content);
         postData.append('file',file);
 
-        let postCreated = undefined;
-        createPost(postData).then((post) => {
-            postCreated = post;
-        })
-
-        console.log(postCreated)
+        //TODO : régler soucis async
+        createPost(postData)
+        addClickHandler();
     }
 
     return(
         <div className="card">
             <div className="card-header">
-                <div className="h4">Créer un post</div>
+                <div className="h5">Créer un post</div>
             </div>
             <div className="card-body">
                 <Form onSubmit={onSend}>

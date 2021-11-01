@@ -89,7 +89,6 @@ exports.getHotPosts = async (req, res) => {
 exports.getOnePost = async (req, res) => {
   try {
     const post = await db.Post.findOne({
-      // on récupère le post avec l'id fourni en incluant les tables et attributs nécessaires
       where: { id: req.params.id },
       include: [
         {
@@ -172,49 +171,12 @@ exports.deletePost = async (req, res) => {
         const filename = post.attachment.split("/upload")[1];
         fs.unlink(`upload/${filename}`, () => {
           db.Post.destroy({ where: { id: post.id } });
-          res.status(200).json({ message: "Post supprimé" });
+          res.status(200).json({ message: "Post supprimé avec succès !" });
         });
       } else {
         db.Post.destroy({ where: { id: post.id } }, { truncate: true });
-        res.status(200).json({ message: "Post supprimé" });
+        res.status(200).json({ message: "Post supprimé avec succès !" });
       }
-    } else {
-      res.status(400).json({ message: "Vous n'avez pas les droits requis" });
-    }
-  } catch (error) {
-    return res.status(500).send({ error: "Erreur serveur" });
-  }
-};
-
-exports.updatePost = async (req, res) => {
-  try {
-    let newAttachment;
-    const userId = token.getUserId(req);
-    let post = await db.Post.findOne({ where: { id: req.params.id } });
-    if (userId === post.UserId) {
-      if (req.file) {
-        newAttachment = `${req.protocol}://${req.get("host")}/api/upload/${
-          req.file.filename
-        }`;
-        if (post.attachment) {
-          const filename = post.attachment.split("/upload")[1];
-          fs.unlink(`upload/${filename}`, (err) => {
-            if (err) console.log(err);
-            else {
-              console.log(`Deleted file: upload/${filename}`);
-            }
-          });
-        }
-      }
-      if (req.body.content) {
-        post.content = req.body.content;
-      }
-      post.title = req.body.title;
-      post.attachment = newAttachment;
-      const newPost = await post.save({
-        fields: ["content", "title", "attachment"],
-      });
-      res.status(200).json({ newPost: newPost, messageRetour: "post modifié" });
     } else {
       res.status(400).json({ message: "Vous n'avez pas les droits requis" });
     }
@@ -235,13 +197,13 @@ exports.likePost = async (req, res, next) => {
         { where: { UserId: userId, PostId: postId } },
         { truncate: true, restartIdentity: true }
       );
-      res.status(200).send({ messageRetour: "vous n'aimez plus ce post" });
+      res.status(200).send({ messageRetour: "Vous n'aimez plus ce post." });
     } else {
       await db.Like.create({
         UserId: userId,
         PostId: postId,
       });
-      res.status(201).json({ messageRetour: "vous aimez ce post" });
+      res.status(201).json({ messageRetour: "Vous aimez ce post." });
     }
   } catch (error) {
     return res.status(500).send({ error: "Erreur serveur" });

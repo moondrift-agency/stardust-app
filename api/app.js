@@ -4,8 +4,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 
 //routes
-const userRoutes = require('./routes/user.routes');
-const postsRoutes = require('./routes/posts.routes');
+const userRoutes = require("./routes/user.routes");
+const postsRoutes = require("./routes/posts.routes");
 
 //database
 const { sequelize } = require('./models/index');

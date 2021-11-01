@@ -18,7 +18,6 @@ export const getPosts = () => (dispatch) => {
         },
         (error) => {
             console.log(error)
-
             return Promise.reject();
         }
     )

@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Post from "../Post/Post";
 import CreatePost from "../CreatePost/CreatePost";
 
-import {addPost, getPosts, removePost} from "../../redux/actions/contentActions";
+import { getPosts } from "../../redux/actions/contentActions";
 import {connect, useDispatch, useSelector} from "react-redux";
+import SideNav from "../SideNav/SideNav";
 
 const PostsContainer = (props) => {
     const posts = useSelector((state) => state.content.posts);
@@ -13,34 +14,42 @@ const PostsContainer = (props) => {
         dispatch(getPosts()); //call les données sur le serveur
     },[]);
 
-    const addCardPost = (post) => {
-        console.log(post.post)
-        dispatch(addPost(post.post));
+    const addCardPost = () => {
+        console.log('Maintenant on update le store')
+        dispatch(getPosts());
     }
 
     const deleteCardPost = (id) => {
-        dispatch(removePost(id));
+        console.log('Maintenant on update le store')
+        dispatch(getPosts());
     }
 
     return(
         <div className="container">
-            <CreatePost
-                addClickHandler={addCardPost}
-            />
-            <div className='posts-container'>
-                {posts?.map(({id,content,attachment,title,createdAt,User,Likes,Comments}) =>
-                    <Post
-                        id={id}
-                        content={content}
-                        attachment={attachment}
-                        title={title}
-                        createdAt={createdAt}
-                        User={User}
-                        Likes={Likes}
-                        Comments={Comments}
-                        deleteClickHandler={deleteCardPost}
+            <div className="row">
+                <div className="col-md-3">
+                    <SideNav/>
+                </div>
+                <div className="col-md-9">
+                    <CreatePost
+                        addClickHandler={addCardPost}
                     />
-                )}
+                    <div className='posts-container'>
+                        {posts?.map(({id,content,attachment,title,createdAt,User,Likes,Comments}) =>
+                            <Post
+                                id={id}
+                                content={content}
+                                attachment={attachment}
+                                title={title}
+                                createdAt={createdAt}
+                                User={User}
+                                Likes={Likes}
+                                Comments={Comments}
+                                deleteClickHandler={deleteCardPost}
+                            />
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );
