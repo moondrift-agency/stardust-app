@@ -1,28 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Post from "../Post/Post";
 import CreatePost from "../CreatePost/CreatePost";
 
 import { getPosts } from "../../redux/actions/contentActions";
-import {connect, useDispatch, useSelector} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import SideNav from "../SideNav/SideNav";
 
 const PostsContainer = (props) => {
     const posts = useSelector((state) => state.content.posts);
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getPosts()); //call les données sur le serveur
+        props.getPosts();
     },[]);
-
-    const addCardPost = () => {
-        console.log('Maintenant on update le store')
-        dispatch(getPosts());
-    }
-
-    const deleteCardPost = (id) => {
-        console.log('Maintenant on update le store')
-        dispatch(getPosts());
-    }
 
     return(
         <div className="container">
@@ -31,12 +20,11 @@ const PostsContainer = (props) => {
                     <SideNav/>
                 </div>
                 <div className="col-md-9">
-                    <CreatePost
-                        addClickHandler={addCardPost}
-                    />
+                    <CreatePost/>
                     <div className='posts-container'>
                         {posts?.map(({id,content,attachment,title,createdAt,User,Likes,Comments}) =>
                             <Post
+                                key={"post-"+id}
                                 id={id}
                                 content={content}
                                 attachment={attachment}
@@ -45,7 +33,6 @@ const PostsContainer = (props) => {
                                 User={User}
                                 Likes={Likes}
                                 Comments={Comments}
-                                deleteClickHandler={deleteCardPost}
                             />
                         )}
                     </div>
@@ -55,6 +42,8 @@ const PostsContainer = (props) => {
     );
 }
 
+const mapActionsToProps = { getPosts };
+
 function mapStateToProps(state) {
     const { posts } = state.content;
     return {
@@ -62,4 +51,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(PostsContainer);
+export default connect(mapStateToProps, mapActionsToProps)(PostsContainer);

@@ -1,38 +1,58 @@
 import {
-    ADD_POST,
-    REMOVE_POST,
     SET_POSTS
 } from "../types";
+import axios from "axios";
+import authHeader from "../../services/auth-header";
 
-import { getAllPosts } from "../../services/posts.service";
+const API_URL = 'http://localhost:8081/api/posts/';
 
 export const getPosts = () => (dispatch) => {
-    return getAllPosts().then(
-        (data) => {
-            dispatch({
-                type: SET_POSTS,
-                payload: data
-            })
+    axios
+        .get(API_URL, {
+            headers: {
+                'Authorization': authHeader()
+            }
+        })
+        .then((res) => {
+            console.log('on update le store');
+            console.log(res.data);
+            dispatch({ type: SET_POSTS, payload: res.data });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
 
-            return Promise.resolve();
-        },
-        (error) => {
-            console.log(error)
-            return Promise.reject();
-        }
-    )
-}
+export const createPost = (postData) => async (dispatch) => {
+    await axios
+        .post(API_URL + "add", postData, {
+            headers: {
+                'Authorization': authHeader(),
+                'Content-Type':'multipart/form-data'
+            }
+        })
+        .then(() => {
+            console.log('on créé un post')
+            dispatch(getPosts());
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
 
-export const addPost = (payload) => {
-    return {
-        type: ADD_POST,
-        payload
-    };
-}
-
-export const removePost = (payload) => {
-    return {
-        type: REMOVE_POST,
-        payload
-    };
+export const deletePost = (id) => async (dispatch) => {
+    await axios
+        .delete(API_URL + id, {
+            headers: {
+                'Authorization': authHeader(),
+                'Content-Type':'multipart/form-data'
+            }
+        })
+        .then(() => {
+            console.log('on supprime un post')
+            dispatch(getPosts());
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }

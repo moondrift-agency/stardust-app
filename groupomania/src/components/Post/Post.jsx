@@ -1,42 +1,42 @@
-import { deletePost } from "../../services/posts.service";
 import {useEffect, useState} from "react";
 import {connect, useSelector} from "react-redux";
 import defaultAvatar from "../../assets/default-avatar.png";
 
+import {deletePost} from "../../redux/actions/contentActions";
+
 import "./Post.css";
 
-const Post = ({id,content,attachment,title,createdAt,User,Likes,Comments,deleteClickHandler}) => {
-    const userProfile = "/user/"+User.id;
+const Post = (props) => {
+    const userProfile = "/user/"+props.User.id;
     const [Owned, setOwned] = useState(false);
     const [userAvatar, setUserAvatar] = useState();
     const [postDate, setDate] = useState();
     const currentUser = useSelector((state) => state.user.data);
 
     useEffect(() => {
-        if(currentUser.id === User.id ){
+        if(currentUser.id === props.User.id ){
             setOwned(true);
         }
 
-        if(User.avatar === null){
+        if(props.User.avatar === null){
             setUserAvatar(defaultAvatar);
-        } else if(User.avatar !== null) {
-            setUserAvatar(User.avatar);
+        } else if(props.User.avatar !== null) {
+            setUserAvatar(props.User.avatar);
         }
 
         setDate(
             "Le " +
-            new Date(createdAt).getDay() + "/" +
-            new Date(createdAt).getMonth() + "/" +
-            new Date(createdAt).getFullYear() + " à " +
-            new Date(createdAt).getHours() + "h" +
-            new Date(createdAt).getMinutes()
+            new Date(props.createdAt).getDay() + "/" +
+            new Date(props.createdAt).getMonth() + "/" +
+            new Date(props.createdAt).getFullYear() + " à " +
+            new Date(props.createdAt).getHours() + "h" +
+            new Date(props.createdAt).getMinutes()
         );
 
     }, [])
 
     const onDeleteClick = () => {
-        deletePost(id);
-        deleteClickHandler(id);
+        props.deletePost(props.id);
     }
 
     return(
@@ -46,7 +46,7 @@ const Post = ({id,content,attachment,title,createdAt,User,Likes,Comments,deleteC
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="mr-2">
                             <img className="rounded-circle" width="45" src={userAvatar} alt=""></img>
-                            <a className="user-link" href={userProfile}>{User.firstname} {User.lastname}</a>
+                            <a className="user-link" href={userProfile}>{props.User.firstname} {props.User.lastname}</a>
                         </div>
                         <div className="ml-2">
 
@@ -72,12 +72,12 @@ const Post = ({id,content,attachment,title,createdAt,User,Likes,Comments,deleteC
                 </div>
             </div>
             <div className="card-body">
-                <h5 className="card-title">{title}</h5>
+                <h5 className="card-title">{props.title}</h5>
                 <div className="text-muted h7 mb-2"><i className="far fa-clock"></i> {postDate}</div>
-                <img className="card-img" src={attachment}></img>
+                <img className="card-img" src={props.attachment}></img>
 
                 <p className="card-text">
-                    {content}
+                    {props.content}
                 </p>
             </div>
             <div className="card-footer">
@@ -95,4 +95,8 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(Post);
+const mapActionsToProps = {
+    deletePost,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(Post);
