@@ -18,12 +18,12 @@ exports.getAllPosts = async (req, res) => {
         },
         {
           model: db.Comment,
-          attributes: ["message", "UserId", "id"],
+          attributes: ["message", "id", "createdAt", "PostId"],
           order: [["createdAt", "DESC"]],
           include: [
             {
               model: db.User,
-              attributes: ["avatar", "firstname", "lastname"],
+              attributes: ["avatar", "firstname", "lastname", "id"],
             },
           ],
         },
@@ -83,11 +83,11 @@ exports.createPost = async (req, res) => {
           {
             model: db.Comment,
             order: [["createdAt", "DESC"]],
-            attributes: ["message", "UserId"],
+            attributes: ["message", "PostId"],
             include: [
               {
                 model: db.User,
-                attributes: ["avatar", "firstname", "lastname"],
+                attributes: ["avatar", "firstname", "lastname", "id"],
               },
             ],
           },
@@ -158,11 +158,23 @@ exports.likePost = async (req, res, next) => {
 exports.addComment = async (req, res) => {
   try {
     const comment = req.body.message;
-    const newComment = await db.Comment.create({
+
+    const createdComment = await db.Comment.create({
       message: comment,
       UserId: token.getUserId(req),
       PostId: req.params.id,
     });
+
+    const newComment = await db.Comment.findOne({
+      where: { id: createdComment.id },
+      attributes: ["message", "id", "createdAt", "PostId"],
+      include: [
+        {
+          model: db.User,
+          attributes: ["firstname", "lastname", "avatar", "id"],
+        },
+      ]
+    })
 
     res
       .status(201)
