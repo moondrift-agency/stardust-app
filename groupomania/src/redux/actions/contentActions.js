@@ -17,7 +17,7 @@ export const getPosts = () => async (dispatch) => {
             }
         })
         .then((res) => {
-            dispatch({type: SET_POSTS, payload: res.data});
+            dispatch({ type: SET_POSTS, payload: res.data });
         })
         .catch((err) => {
             console.log(err);
@@ -88,7 +88,6 @@ export const likePost = async (id) => {
             return response.data
         })
         .catch((err) => {
-            console.error(err);
-            return err;
+            console.log(err);
         })
 }

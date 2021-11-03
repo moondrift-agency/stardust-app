@@ -13,27 +13,27 @@ import { getUser } from "../../services/user.service";
 
 export const signup = (newUserData) => (dispatch) => {
     return postSignup(newUserData).then(
-      (response) => {
-        dispatch({
-          type: SET_REGISTERED,
-        });
+        (response) => {
+            dispatch({
+                type: SET_REGISTERED,
+            });
 
-        return Promise.resolve();
-      },
-      (error) => {
-        /*const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();*/
+            return Promise.resolve();
+        },
+        (error) => {
+            /*const message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();*/
 
-        dispatch({
-          type: SET_UNREGISTERED,
-        });
+            dispatch({
+                type: SET_UNREGISTERED,
+            });
 
-        return Promise.reject();
-      }
+            return Promise.reject();
+        }
     );
 };
 

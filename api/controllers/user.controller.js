@@ -125,7 +125,7 @@ exports.updateAccount = async (req, res) => {
 
     if (userId === user.id) {
       if (req.file && user.avatar) {
-        newAvatar = `${req.protocol}://${req.get("host")}/api/upload/${
+        newAvatar = `${req.protocol}://${req.get("host")}/upload/${
           req.file.filename
         }`;
         const filename = user.avatar.split("/upload")[1];
@@ -137,7 +137,7 @@ exports.updateAccount = async (req, res) => {
           }
         });
       } else if (req.file) {
-        newAvatar = `${req.protocol}://${req.get("host")}/api/upload/${
+        newAvatar = `${req.protocol}://${req.get("host")}/upload/${
           req.file.filename
         }`;
       }

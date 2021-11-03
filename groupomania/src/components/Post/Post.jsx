@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {connect, useSelector} from "react-redux";
 import defaultAvatar from "../../assets/default-avatar.png";
 
-import {deletePost} from "../../redux/actions/contentActions";
+import {deletePost, likePost} from "../../redux/actions/contentActions";
 
 import "./Post.css";
 import CommentsContainer from "../CommentsContainer/CommentsContainer";
@@ -15,9 +15,9 @@ const Post = (props) => {
     const [Owned, setOwned] = useState(false);
     const [userAvatar, setUserAvatar] = useState();
     const [postDate, setDate] = useState();
-
     const currentUser = useSelector((state) => state.user.data);
-
+    const [isLiked, updateLike] = useState(false);
+    
     useEffect(() => {
         if(currentUser.id === props.User.id ){
             setOwned(true);
@@ -29,6 +29,12 @@ const Post = (props) => {
             setUserAvatar(props.User.avatar);
         }
 
+        props.Likes.forEach(element => {
+            if(hasValue(element, "UserId", currentUser.id)){
+                updateLike(true);
+            }   
+        });
+        
         setDate(
             "Le " +
             new Date(props.createdAt).getDay() + "/" +
@@ -39,6 +45,22 @@ const Post = (props) => {
         );
 
     }, [])
+
+    const handleLike = () => {
+        console.log('post liked');
+        if(!isLiked){
+            props.Likes.push(currentUser.id);
+            likePost(props.id);
+            updateLike(true);
+        } else {
+            props.Likes.pop(currentUser.id);
+            likePost(props.id);
+            updateLike(false);
+        }
+    }
+    function hasValue(obj, key, value) {
+        return obj.hasOwnProperty(key) && obj[key] === value ;
+    }
 
     const onDeleteClick = () => {
         props.deletePost(props.id);
@@ -65,7 +87,7 @@ const Post = (props) => {
 
                         </div>
                     </div>
-                    {Owned ? (
+                    {(Owned || currentUser.isAdmin) ? (
                         <div>
                             <div className="dropdown">
                                 <button className="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -76,11 +98,7 @@ const Post = (props) => {
                                 </ul>
                             </div>
                         </div>
-                    ) : (
-                        <div>
-
-                        </div>
-                    )
+                    ) : null
                     }
                 </div>
             </div>
@@ -90,24 +108,29 @@ const Post = (props) => {
                     <div className="post-card-date text-muted h7"><i className="far fa-clock"></i> {postDate}</div>
                 </div>
 
-                <img className="card-img" src={props.attachment}></img>
+                {props.attachment ? (
+                    <img className="card-img" src={props.attachment}></img>
+                ) : null
+                }
                 <p className="card-text">
                     {props.content}
                 </p>
             </div>
             <div className="card-footer d-flex">
-                <a className="card-link"><i className="fa fa-gittip"></i> <i className="far fa-heart"></i></a>
-                <a className="card-link" onClick={handleDisplayComment}><i className="fa fa-comment"></i> Commentaires</a>
+                <a href className="card-link">
+                { isLiked ?
+                    <i onClick={handleLike} className="fas fa-heart"></i>  :  <i onClick={handleLike} className="far fa-heart"></i>
+                }
+                {props.Likes.length}
+                </a>
+                <a className="card-link" onClick={handleDisplayComment}><i className="fa fa-comment"></i> Commentaires  {props.Comments.length}</a>
             </div>
             {displayComments ? (
                 <CommentsContainer
                     id={props.id}
+                    comments={props.Comments}
                 />
-            ) : (
-                <div>
-
-                </div>
-            )
+            ) : null
             }
 
         </div>

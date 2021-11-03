@@ -38,54 +38,6 @@ exports.getAllPosts = async (req, res) => {
   }
 };
 
-exports.getHotPosts = async (req, res) => {
-  try {
-    const posts = await db.Post.findAll({
-      attributes: [
-        "id",
-        "content",
-        "imageUrl",
-        "title",
-        "createdAt",
-        [
-          db.sequelize.literal(
-            "(SELECT COUNT(*) FROM Likes WHERE Likes.PostId = Post.id)"
-          ),
-          "LikeCount",
-        ],
-      ],
-      order: [[db.sequelize.literal("LikeCount"), "DESC"]],
-
-      include: [
-        {
-          model: db.User,
-          attributes: ["firstname", "lastname", "id", "avatar"],
-        },
-        {
-          model: db.Like,
-          attributes: ["PostId", "UserId"],
-        },
-        {
-          model: db.Comment,
-          order: [["createdAt", "DESC"]],
-          attributes: ["message", "firstname", "lastname", "UserId", "id"],
-          include: [
-            {
-              model: db.User,
-              attributes: ["avatar", "firstname", "lastname"],
-            },
-          ],
-        },
-      ],
-    });
-    res.status(200).send(posts);
-  } catch (error) {
-    return res.status(500).send({
-      error: "Une erreur est survenu lors de la récupération des posts ",
-    });
-  }
-};
-
 exports.createPost = async (req, res) => {
   const idUser = token.getUserId(req);
   let attachment;
@@ -159,7 +111,7 @@ exports.deletePost = async (req, res) => {
     const userId = token.getUserId(req);
     const checkAdmin = await db.User.findOne({ where: { id: userId } });
     const post = await db.Post.findOne({ where: { id: req.params.id } });
-    if (userId === post.UserId || checkAdmin.admin === true) {
+    if (userId === post.UserId || checkAdmin.isAdmin === true) {
       if (post.attachment) {
         const filename = post.attachment.split("/upload")[1];
         fs.unlink(`upload/${filename}`, () => {

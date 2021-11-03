@@ -3,9 +3,8 @@ const postsController = require('../controllers/posts.controller');
 const tokenChecker = require("../middleware/token.checker");
 const multer = require('../middleware/multer.config');
 
-router.get('/', /*tokenChecker,*/ postsController.getAllPosts);
+router.get('/', tokenChecker, postsController.getAllPosts);
 router.post('/add', tokenChecker, multer, postsController.createPost);
-router.get("/hot", tokenChecker, postsController.getHotPosts);
 router.delete("/:id", tokenChecker, multer, postsController.deletePost);
 router.post("/:id/like", tokenChecker, postsController.likePost);
 router.post("/:id/comments", tokenChecker, postsController.addComment);

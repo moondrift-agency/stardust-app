@@ -30,9 +30,18 @@ export const contentReducer = (state=initialState, action) => {
             };
         case ADD_COMMENT:
             //TODO : corriger store comments
+            let index_comment = state.posts.findIndex(
+                (posts) => posts.id == action.payload.newComment.PostId
+            );
             return {
                 ...state,
-                Comments: action.payload
+                posts: {
+                    ...state.posts,//jusqu'ici on est bon !
+                    [index_comment]: {
+                        ...state.posts[index_comment],
+                        Comments: [action.payload.newComment, ...state.posts[index_comment].Comments]
+                    }
+                }
             }
         default:
             return state;
