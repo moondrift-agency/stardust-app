@@ -3,8 +3,6 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import {connect} from "react-redux";
 
-import {useForm} from "react-hook-form";
-
 import {createPost} from "../../redux/actions/contentActions";
 
 import './CreatePost.css';
@@ -13,8 +11,6 @@ const CreatePost = (props) => {
     const [title, setTitle] = useState();
     const [content, setContent] = useState();
     const [file, setFile] = useState();
-
-    const {postForm, handleSubmit} = useForm(); //à tester
 
     const onSend = (e) => {
         e.preventDefault();

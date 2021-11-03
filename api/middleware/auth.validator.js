@@ -36,7 +36,6 @@ exports.valid = (req, res, next) => {
 
 //TODO : vérification prénom/nom
 exports.checkPseudo = (req, res, next) => {
-  // on vérifie le pseudo
   const regex = /^[a-z ,.'-]+$/i; // Lettres, espaces et doit être entre 4 et 30 caractères
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { connect, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getUser } from "../../services/user.service";
@@ -14,6 +14,7 @@ import RootProfile from "./RootProfile/RootProfile";
     DISPATCH() IS USED TO STORE DATA RETRIEVED BY API AS A STATE IN THE STORE
     MAPSTATETOSTORE()  IS USED TO REFLECT ANY UPDATES TO THE REDUX STORE AND MERGE THEM INTO PROPS
     USESELECTOR() IS USED TO READ THE STATE
+
     COMPONENT DISPLAYED :
       avatar
       firstname
@@ -22,11 +23,14 @@ import RootProfile from "./RootProfile/RootProfile";
       department
       job
 */
+
 const Profile = (props) => {
     let { id } = useParams();
-    let [Owned, setOwned] = useState(false);
+
     const [profile, setProfile] = useState("")
     const user = useSelector((state) => state.user);
+
+    let [Owned, setOwned] = useState(false);
 
     useEffect(() => {
         if(id && id !== user.data.id ){
@@ -53,7 +57,9 @@ const Profile = (props) => {
                                         <div class="row m-l-0 m-r-0">
                                             <div class="col-sm-4 bg-c-lite-green user-profile">
                                                 <div class="card-block text-center text-white">
-                                                    <div class="m-b-25"> <img src={profile.data?.avatar} class="img-radius" alt='img'></img> </div>
+                                                    <div class="m-b-25">
+                                                        <img src={profile.data?.avatar} class="img-radius" alt='img'></img>
+                                                    </div>
                                                     <h6 class="f-w-600">{profile.data?.firstname} {profile.data?.lastname}</h6>
                                                     <p>{profile.data?.job}</p> <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                                 </div>
@@ -84,10 +90,12 @@ const Profile = (props) => {
         </>
     );
 }
+
 function mapStateToProps(state) {
     const {user} = state.user
     return {
         user,
     };
 }
+
 export default connect(mapStateToProps)(Profile);

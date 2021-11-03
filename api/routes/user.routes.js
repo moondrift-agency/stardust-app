@@ -5,7 +5,7 @@ const tokenChecker = require("../middleware/token.checker");
 const multer = require("../middleware/multer.config");
 
 router.post("/signup", authValidator.checkPseudo, authValidator.valid, userController.signup);
-router.post("/login", /*authValidator.valid,*/ userController.login);
+router.post("/login", userController.login);
 router.get("/users", tokenChecker, userController.getAllUsers);
 router.put("/accounts/:id?", tokenChecker, multer, userController.updateAccount);
 router.get("/accounts/:id?", tokenChecker, userController.getUser);

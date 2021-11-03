@@ -12,3 +12,6 @@ export const SET_UNAUTHENTICATED = "SET_UNAUTHENTICATED";
 
 //POSTS
 export const SET_POSTS = "SET_POSTS";
+export const ADD_POST = "ADD_POST";
+export const REMOVE_POST = "REMOVE_POST";
+export const ADD_COMMENT = "ADD_COMMENT";

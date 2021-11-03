@@ -5,12 +5,17 @@ import defaultAvatar from "../../assets/default-avatar.png";
 import {deletePost} from "../../redux/actions/contentActions";
 
 import "./Post.css";
+import CommentsContainer from "../CommentsContainer/CommentsContainer";
 
 const Post = (props) => {
+    //booleans
+    const [displayComments, setDisplayComments] = useState(false);
+
     const userProfile = "/user/"+props.User.id;
     const [Owned, setOwned] = useState(false);
     const [userAvatar, setUserAvatar] = useState();
     const [postDate, setDate] = useState();
+
     const currentUser = useSelector((state) => state.user.data);
 
     useEffect(() => {
@@ -37,6 +42,14 @@ const Post = (props) => {
 
     const onDeleteClick = () => {
         props.deletePost(props.id);
+    }
+
+    const handleDisplayComment = event => {
+        if(displayComments === true) {
+            setDisplayComments(false);
+        } else {
+            setDisplayComments(true);
+        }
     }
 
     return(
@@ -71,19 +84,32 @@ const Post = (props) => {
                     }
                 </div>
             </div>
-            <div className="card-body">
-                <h5 className="card-title">{props.title}</h5>
-                <div className="text-muted h7 mb-2"><i className="far fa-clock"></i> {postDate}</div>
-                <img className="card-img" src={props.attachment}></img>
+            <div className="card-body post-card-body">
+                <div className="card-body-header d-flex flex-column">
+                    <h5 className="post-card-title">{props.title}</h5>
+                    <div className="post-card-date text-muted h7"><i className="far fa-clock"></i> {postDate}</div>
+                </div>
 
+                <img className="card-img" src={props.attachment}></img>
                 <p className="card-text">
                     {props.content}
                 </p>
             </div>
-            <div className="card-footer">
-                <a href="#" className="card-link"><i className="fa fa-gittip"></i> <i className="far fa-heart"></i></a>
-                <a href="#" className="card-link"><i className="fa fa-comment"></i> Commentaires</a>
+            <div className="card-footer d-flex">
+                <a className="card-link"><i className="fa fa-gittip"></i> <i className="far fa-heart"></i></a>
+                <a className="card-link" onClick={handleDisplayComment}><i className="fa fa-comment"></i> Commentaires</a>
             </div>
+            {displayComments ? (
+                <CommentsContainer
+                    id={props.id}
+                />
+            ) : (
+                <div>
+
+                </div>
+            )
+            }
+
         </div>
     );
 }

@@ -16,14 +16,23 @@ module.exports = (sequelize, DataTypes) => {
                     allowNull: false
                 }, onDelete: 'CASCADE',
             }),
-                models.Post.hasMany(models.Comment)
+            models.Post.hasMany(models.Comment)
             models.Post.hasMany(models.Like)
         }
     };
     Post.init({
-        title: {type: DataTypes.STRING, allowNull: false},
-        content: {type: DataTypes.STRING, allowNull: false},
-        attachment: {type: DataTypes.STRING, allowNull: true},
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        content: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        attachment: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
     }, {
         sequelize,
         modelName: 'Post',

@@ -86,38 +86,6 @@ exports.getHotPosts = async (req, res) => {
   }
 };
 
-exports.getOnePost = async (req, res) => {
-  try {
-    const post = await db.Post.findOne({
-      where: { id: req.params.id },
-      include: [
-        {
-          model: db.User,
-          attributes: ["firstname", "lastname", "avatar", "id"],
-        },
-        {
-          model: db.Like,
-          attributes: ["PostId", "UserId"],
-        },
-        {
-          model: db.Comment,
-          order: [["createdAt", "DESC"]],
-          attributes: ["message", "firstname", "lastname", "UserId"],
-          include: [
-            {
-              model: db.User,
-              attributes: ["avatar", "firstname", "lastname"],
-            },
-          ],
-        },
-      ],
-    });
-    res.status(200).json(post);
-  } catch (error) {
-    return res.status(500).send({ error: "Erreur serveur" });
-  }
-};
-
 exports.createPost = async (req, res) => {
   const idUser = token.getUserId(req);
   let attachment;
@@ -149,9 +117,34 @@ exports.createPost = async (req, res) => {
         UserId: user.id,
       });
 
+      const returnPost = await db.Post.findOne({
+        where: { id: post.id },
+        include: [
+          {
+            model: db.User,
+            attributes: ["firstname", "lastname", "avatar", "id"],
+          },
+          {
+            model: db.Like,
+            attributes: ["PostId", "UserId"],
+          },
+          {
+            model: db.Comment,
+            order: [["createdAt", "DESC"]],
+            attributes: ["message", "UserId"],
+            include: [
+              {
+                model: db.User,
+                attributes: ["avatar", "firstname", "lastname"],
+              },
+            ],
+          },
+        ],
+      });
+
       res
         .status(201)
-        .json({ post: post, messageRetour: "Votre post a bien été créé !" });
+        .json({ post: returnPost, messageRetour: "Votre post a bien été créé !" });
     } else {
       res.status(400).send({ error: "Erreur " });
     }
@@ -212,20 +205,16 @@ exports.likePost = async (req, res, next) => {
 
 exports.addComment = async (req, res) => {
   try {
-    const comment = req.body.commentMessage;
-    const firstname = req.body.firstname;
-    const lastname = req.body.lastname;
+    const comment = req.body.message;
     const newComment = await db.Comment.create({
       message: comment,
-      firstname: firstname,
-      lastname: lastname,
       UserId: token.getUserId(req),
       PostId: req.params.id,
     });
 
     res
       .status(201)
-      .json({ newComment, messageRetour: "votre commentaire est publié" });
+      .json({ newComment, messageRetour: "Votre commentaire a été publié" });
   } catch (error) {
     return res.status(500).send({ error: "Erreur serveur" });
   }
@@ -239,7 +228,7 @@ exports.deleteComment = async (req, res) => {
 
     if (userId === comment.UserId || checkAdmin.admin === true) {
       db.Comment.destroy({ where: { id: req.params.id } }, { truncate: true });
-      res.status(200).json({ message: "commentaire supprimé" });
+      res.status(200).json({ message: "Commentaire supprimé" });
     } else {
       res.status(400).json({ message: "Vous n'avez pas les droits requis" });
     }

@@ -5,10 +5,9 @@ const CommentsContainer = (props) => {
 
     return(
         <div className="container">
-            {
-
-            }
-            <CreateComment/>
+            <CreateComment
+                id={props.id}
+            />
         </div>
     );
 }
