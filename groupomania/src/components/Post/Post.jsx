@@ -117,9 +117,9 @@ const Post = (props) => {
                 </p>
             </div>
             <div className="card-footer d-flex">
-                <a href className="card-link">
+                <a onClick={handleLike} href className="card-link">
                 { isLiked ?
-                    <i onClick={handleLike} className="fas fa-heart"></i>  :  <i onClick={handleLike} className="far fa-heart"></i>
+                    <i onClick={handleLike} className="fas fa-heart"></i>  :  <i className="far fa-heart"></i>
                 }
                 {props.Likes.length}
                 </a>

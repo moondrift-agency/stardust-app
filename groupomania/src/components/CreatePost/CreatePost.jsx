@@ -26,7 +26,7 @@ const CreatePost = (props) => {
     return (
         <div className="card">
             <div className="card-header">
-                <div className="h5">Créer un post</div>
+                <div className="h5 text-muted"><i className="fas fa-plus-circle"></i> Créer un post</div>
             </div>
             <div className="card-body">
                 <Form onSubmit={onSend}>

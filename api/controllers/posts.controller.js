@@ -19,7 +19,7 @@ exports.getAllPosts = async (req, res) => {
         {
           model: db.Comment,
           attributes: ["message", "id", "createdAt", "PostId"],
-          order: [["createdAt", "DESC"]],
+          order: [["createdAt", "ASC"]],
           include: [
             {
               model: db.User,

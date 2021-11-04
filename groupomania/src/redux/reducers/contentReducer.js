@@ -29,19 +29,25 @@ export const contentReducer = (state=initialState, action) => {
                 posts: copyList
             };
         case ADD_COMMENT:
-            //TODO : corriger store comments
+            //TODO : essayer d'optimiser cette partie
             let index_comment = state.posts.findIndex(
                 (posts) => posts.id == action.payload.newComment.PostId
             );
+
+            copyList = state.posts.slice();
+            copyList[index_comment].Comments.push(action.payload.newComment);
+
             return {
                 ...state,
-                posts: {
-                    ...state.posts,//jusqu'ici on est bon !
+                posts: copyList
+                /*{
+                    copyList,
                     [index_comment]: {
                         ...state.posts[index_comment],
-                        Comments: [action.payload.newComment, ...state.posts[index_comment].Comments]
+                        Comments: copyList
+                        //[action.payload.newComment, ...state.posts[index_comment].Comments]
                     }
-                }
+                }*/
             }
         default:
             return state;
