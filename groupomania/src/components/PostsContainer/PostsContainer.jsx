@@ -14,28 +14,26 @@ const PostsContainer = (props) => {
     },[]);
 
     return(
-        <div className="container">
-            <div className="row">
-                <div className="col-md-4">
-                    <SideNav/>
-                </div>
-                <div className="col-md-8">
-                    <CreatePost/>
-                    <div className='posts-container'>
-                        {posts?.map(({id,content,attachment,title,createdAt,User,Likes,Comments}) =>
-                            <Post
-                                key={"post-"+id}
-                                id={id}
-                                content={content}
-                                attachment={attachment}
-                                title={title}
-                                createdAt={createdAt}
-                                User={User}
-                                Likes={Likes}
-                                Comments={Comments}
-                            />
-                        )}
-                    </div>
+        <div className="row">
+            <div className="col-md-4">
+                <SideNav/>
+            </div>
+            <div className="col-md-8">
+                <CreatePost/>
+                <div className='posts-container'>
+                    {posts?.map(({id,content,attachment,title,createdAt,User,Likes,Comments}) =>
+                        <Post
+                            key={"post-"+id}
+                            id={id}
+                            content={content}
+                            attachment={attachment}
+                            title={title}
+                            createdAt={createdAt}
+                            User={User}
+                            Likes={Likes}
+                            Comments={Comments}
+                        />
+                    )}
                 </div>
             </div>
         </div>

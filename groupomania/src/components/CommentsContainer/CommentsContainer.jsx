@@ -2,7 +2,7 @@ import CreateComment from "../CreateComment/CreateComment";
 import {useSelector} from "react-redux";
 
 const CommentsContainer = (props) => {
-    //const comments = useSelector((state) => state.content.posts);
+    const comments = useSelector((state) => state.content.posts);
 
     console.log(props.comments);
 

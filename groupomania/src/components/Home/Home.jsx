@@ -5,7 +5,7 @@ const Home = (props) => {
     const currentUser = useSelector((state) => state.user);
 
     return(
-        <div className="container">
+        <div className="container mt-4 mb-4">
             {currentUser.isLoggedIn ? (
                 <PostsContainer/>
             ) : (

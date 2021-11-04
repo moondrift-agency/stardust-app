@@ -1,9 +1,9 @@
 import {Link} from "react-router-dom";
 import {connect, useDispatch, useSelector} from "react-redux";
-
 import {logout} from "../../redux/actions/userActions";
+import "./NavBar.css";
 
-const Navbar = (state) => {
+const Navbar = (props) => {
     const currentUser = useSelector((state) => state.user);
     const currentUserProfile = "/user/"+currentUser.id;
     const dispatch = useDispatch();
@@ -14,11 +14,16 @@ const Navbar = (state) => {
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container-fluid">
+            <div className="container d-flex">
                 <Link to={"/"} className="navbar-brand">
-                    <img className="d-inline-block align-text-top" alt="" src=""></img>
+                    <img className="d-inline-block align-text-top" height="28" alt="" src={props.logo}></img>
                 </Link>
-                <div className="collapse navbar-collapse">
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <div className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
                             <Link to={"/home"} className="nav-link">
@@ -37,25 +42,9 @@ const Navbar = (state) => {
                     <div className="d-flex">
                         {currentUser.isLoggedIn ? (
                             <div className="navbar-nav ml-auto">
-                                <div className="btn-group">
-                                    <button type="button" className="btn btn-secondary dropdown-toggle"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                        {currentUser.data.firstname + ' ' + currentUser.data.lastname}
-                                    </button>
-                                    <ul className="dropdown-menu dropdown-menu-end">
-                                        <li><Link to={"/user"} className="nav-link">
-                                            <button className="dropdown-item" type="button">Voir mon profil</button>
-                                        </Link></li>
-                                        <li>
-                                            <hr className="dropdown-divider"></hr>
-                                        </li>
-                                        <li>
-                                            <button className="dropdown-item" type="button" onClick={logOut}>Se
-                                                déconnecter
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <button className="btn btn-danger" type="button" onClick={logOut}>
+                                    <i className="fas fa-sign-out-alt"></i> Se déconnecter
+                                </button>
                             </div>
                         ) : (
                             <div className="navbar-nav ml-auto">

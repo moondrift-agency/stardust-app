@@ -14,7 +14,7 @@ import Home from "./components/Home/Home";
 import UserList from "./components/UserList/UserList";
 
 //logo
-import logo from './assets/logos/icon-left-font.svg';
+import logo from './assets/logos/logo-groupomania.png';
 
 //redux
 import store from './redux/store';
@@ -39,17 +39,17 @@ const App = (props) => {
     return (
         <div className="App">
             <BrowserRouter>
-                <Navbar/>
+                <Navbar
+                    logo={logo}
+                />
 
-                <div className="container mt-4 mb-4">
-                    <Switch>
-                        <Route exact path={["/", "/home"]} component={Home}/>
-                        <Route exact path="/login" component={Login}/>
-                        <Route exact path="/signup" component={Signup}/>
-                        <Route exact path="/user/:id?" component={Profile}/>
-                        <Route exact path="/users" component={UserList}/>
-                    </Switch>
-                </div>
+                <Switch>
+                    <Route exact path={["/", "/home"]} component={Home}/>
+                    <Route exact path="/login" component={Login}/>
+                    <Route exact path="/signup" component={Signup}/>
+                    <Route exact path="/user/:id?" component={Profile}/>
+                    <Route exact path="/users" component={UserList}/>
+                </Switch>
 
                 <Footer/>
             </BrowserRouter>
