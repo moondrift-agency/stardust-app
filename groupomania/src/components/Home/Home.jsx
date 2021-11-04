@@ -1,5 +1,6 @@
 import PostsContainer from "../PostsContainer/PostsContainer";
 import {connect, useSelector} from "react-redux";
+import {Redirect} from "react-router-dom";
 
 const Home = (props) => {
     const currentUser = useSelector((state) => state.user);
@@ -9,9 +10,7 @@ const Home = (props) => {
             {currentUser.isLoggedIn ? (
                 <PostsContainer/>
             ) : (
-                <div className="alert alert-danger" role="alert">
-                    Vous devez être connecté pour voir les posts !
-                </div>
+                <Redirect to="/login" />
             )
             }
         </div>

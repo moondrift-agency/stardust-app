@@ -20,8 +20,12 @@ const SideNav = () => {
             <div className="card-body text-center">
                 <img className="card-sidenav-avatar img-fluid img-thumbnail rounded-circle border-0 mb-3" src={avatar} alt="User"></img>
                 <h5 className="card-title card-sidenav-name">{currentUser.data.firstname} {currentUser.data.lastname}</h5>
-                <p className="badge-job text-secondary mb-1">{currentUser.data.job}</p>
-                <p className="text-muted font-size-sm">{currentUser.data.department}</p>
+                {currentUser.data.job === undefined ? (
+                    <p className="badge-job text-secondary mb-1">{currentUser.data.job}</p>
+                ) : null}
+                {currentUser.data.department === undefined ? (
+                    <p className="text-muted font-size-sm">{currentUser.data.department}</p>
+                ) : null}
             </div>
             <div className="card-footer card-sidenav-footer d-flex justify-content-center">
                 <Link to={currentUserProfile} className="nav-link">

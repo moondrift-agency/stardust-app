@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {connect} from "react-redux";
-import { useFormik } from 'formik';
+import { useFormik, setFieldValue } from 'formik';
 
 import {createPost} from "../../redux/actions/contentActions";
 
@@ -13,18 +13,19 @@ const CreatePost = (props) => {
 
     const initialValues = {
         title: '',
-        content: ''
+        content: '',
+        file: null
     }
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = values => {
+        //e.preventDefault();
 
-        const postData = new FormData();
-        //postData.append('title', title);
-        //postData.append('content', content);
-        postData.append('file', file);
+        /*const postData = new FormData();
+        postData.append('title', title);
+        postData.append('content', content);
+        postData.append('file', file);*/
 
-        props.createPost(postData);
+        props.createPost(formik.values);
     }
 
     const validate = values => {
@@ -98,8 +99,9 @@ const CreatePost = (props) => {
                                 className="form-control form-control-sm upload-form"
                                 name="file"
                                 type="file"
+                                value={formik.values.file}
                                 onChange={(e) => {
-                                    setFile(e.target.files[0])
+                                    setFile({"file": e.currentTarget.files[0]});
                                 }}
                             >
                             </input>

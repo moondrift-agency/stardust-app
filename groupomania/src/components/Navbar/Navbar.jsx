@@ -41,7 +41,7 @@ const Navbar = (props) => {
                     <div className="d-flex">
                         {currentUser.isLoggedIn ? (
                             <div className="navbar-nav ml-auto">
-                                <button className="btn btn-danger" type="button" onClick={logOut}>
+                                <button className="btn-groupomania" type="button" onClick={logOut}>
                                     <i className="fas fa-sign-out-alt"></i> Se déconnecter
                                 </button>
                             </div>

@@ -14,6 +14,7 @@ html, body, #root, .App {
 .card {
     border-radius: 10px !important;
     box-shadow: grey 0 10px 12px -10px !important;
+    border: none !important;
 }
 
 .card-header {
@@ -27,8 +28,8 @@ html, body, #root, .App {
 
 /*Utils*/
 .btn-groupomania {
-    background: #FD2D01;
-    border: 2px solid #FD2D01 !important;
+    background: #F26764;
+    border: 2px solid #F26764 !important;
     border-radius: 999px;
     box-sizing: border-box;
     color: #FFFFFF;
@@ -50,6 +51,6 @@ html, body, #root, .App {
 
 .btn-groupomania:hover {
     background-color: #FFFFFF;
-    border: 2px solid #FD2D01;
-    color: #FD2D01;
+    border: 2px solid #F26764;
+    color: #F26764;
 }

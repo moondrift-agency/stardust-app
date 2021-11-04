@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import { isEmail } from "validator";
-
 import {connect, useDispatch} from "react-redux";
+import {useFormik} from "formik";
 
 //redux
 import { signup } from "../../redux/actions/userActions";
@@ -15,61 +12,17 @@ const Signup = (props) => {
   const [lastname, setLastname] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [successful, setSuccessful] = useState(false);
 
   const dispatch = useDispatch();
 
-  const required = (value) => {
-    if (!value) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          Ce champ est requis !
-        </div>
-      );
-    }
-  };
+  const initialValues = {
+    firstname: '',
+    lastname: '',
+    email: '',
+    password: ''
+  }
 
-  const vemail = (value) => {
-    if (!isEmail(value)) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          This is not a valid email.
-        </div>
-      );
-    }
-  };
-
-  const vfirstname = (value) => {
-    if (value.length < 3 || value.length > 20) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          The firstname must be between 3 and 20 characters.
-        </div>
-      );
-    }
-  };
-
-  const vlastname = (value) => {
-    if (value.length < 3 || value.length > 20) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          The lastname must be between 3 and 20 characters.
-        </div>
-      );
-    }
-  };
-
-  const vpassword = (value) => {
-    if (value.length < 6 || value.length > 40) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          The password must be between 6 and 40 characters.
-        </div>
-      );
-    }
-  };
-
-  const onSend = () => {
+  const onSubmit = () => {
     const newUserData = {
       firstname: firstname,
       lastname: lastname,
@@ -79,111 +32,107 @@ const Signup = (props) => {
 
     dispatch(signup(newUserData))
       .then(() => {
-        setSuccessful(true);
+        //setSuccessful(true);
       })
   };
 
+  const validate = values => {
+    const errors = {};
+
+    if(!values.email) {
+      errors.email = "Ce champ est requis !";
+    }
+
+    if(!values.password) {
+      errors.password = "Ce champ est requis !";
+    }
+
+    return errors;
+  }
+
+  const formik = useFormik({
+    initialValues,
+    onSubmit,
+    validate
+  })
+
   return (
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="card">
-            <div class="card-header">Inscription</div>
-            <div class="card-body">
-              <Form onSubmit={onSend}>
-                {!successful && (
-                  <div>
-                    <div class="form-group row">
-                      <label
-                        for="firstname"
-                        class="col-md-4 col-form-label text-md-right"
-                      >
-                        Prénom
-                      </label>
-                      <div class="col-md-6">
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="firstname"
-                          value={firstname}
-                          onChange={(e) => {
-                            setFirstname(e.target.value);
-                          }}
-                          validations={[required, vfirstname]}
-                        />
-                      </div>
-                    </div>
+    <div className="d-flex container h-100 align-items-center justify-content-center">
+      <div className="col-md-4">
+        <div className="card card-inscription">
+          <div className="card-header text-muted">INSCRIPTION</div>
+          <div className="card-body">
+            <form onSubmit={formik.handleSubmit}>
+              <div>
+                <div className="col-md-10 form-group mx-auto">
+                  <label
+                      htmlFor="firstname"
+                      className="col-form-label text-md-right"
+                  >
+                    Prénom
+                  </label>
+                  <input
+                      type="text"
+                      className="form-control"
+                      name="firstname"
+                      value={formik.values.firstname}
+                      onChange={formik.handleChange}
+                  />
+                </div>
 
-                    <div class="form-group row">
-                      <label
-                        for="lastname"
-                        class="col-md-4 col-form-label text-md-right"
-                      >
-                        Nom
-                      </label>
-                      <div class="col-md-6">
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="lastname"
-                          value={lastname}
-                          onChange={(e) => {
-                            setLastname(e.target.value);
-                          }}
-                          validations={[required, vlastname]}
-                        />
-                      </div>
-                    </div>
+                <div className="col-md-10 form-group mx-auto">
+                  <label
+                      htmlFor="lastname"
+                      className="col-form-label text-md-right"
+                  >
+                    Nom
+                  </label>
+                  <input
+                      type="text"
+                      className="form-control"
+                      name="lastname"
+                      value={formik.values.lastname}
+                      onChange={formik.handleChange}
+                  />
+                </div>
 
-                    <div class="form-group row">
-                      <label
-                        for="email"
-                        class="col-md-4 col-form-label text-md-right"
-                      >
-                        E-Mail
-                      </label>
-                      <div class="col-md-6">
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="email"
-                          value={email}
-                          onChange={(e) => {
-                            setEmail(e.target.value);
-                          }}
-                          validations={[required, vemail]}
-                        />
-                      </div>
-                    </div>
+                <div className="col-md-10 form-group mx-auto">
+                  <label
+                      htmlFor="email"
+                      className="col-form-label text-md-right"
+                  >
+                    E-mail
+                  </label>
+                  <input
+                      type="text"
+                      className="form-control"
+                      name="email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                  />
+                </div>
 
-                    <div class="form-group row">
-                      <label
-                        for="password"
-                        class="col-md-4 col-form-label text-md-right"
-                      >
-                        Mot-de-passe
-                      </label>
-                      <div class="col-md-6">
-                        <Input
-                          type="password"
-                          className="form-control"
-                          name="password"
-                          value={password}
-                          onChange={(e) => {
-                            setPassword(e.target.value);
-                          }}
-                          validations={[required, vpassword]}
-                        />
-                      </div>
-                    </div>
+                <div className="col-md-10 form-group mx-auto">
+                  <label
+                      htmlFor="password"
+                      className="col-form-label text-md-right"
+                  >
+                    Mot-de-passe
+                  </label>
+                  <input
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                  />
+                </div>
 
-                    <div class="col-md-6 offset-md-4">
-                      <button className="btn btn-primary">S'inscrire</button>
-                    </div>
-                  </div>
-                )}
-              </Form>
-            </div>
+                <div className="form-group d-flex justify-content-center mt-4">
+                  <button className="btn-groupomania">S'inscrire</button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -191,16 +140,8 @@ const Signup = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { isLoggedIn } = state;
-
-  return {
-    isLoggedIn,
-  };
-}
-
 const mapActionsToProps = {
   signup,
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(Signup);
+export default connect(null, mapActionsToProps)(Signup);

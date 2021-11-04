@@ -47,7 +47,6 @@ const Post = (props) => {
     }, [])
 
     const handleLike = () => {
-        console.log('post liked');
         if(!isLiked){
             props.Likes.push(currentUser.id);
             likePost(props.id);
@@ -117,13 +116,15 @@ const Post = (props) => {
                 </p>
             </div>
             <div className="card-footer d-flex">
-                <a onClick={handleLike} href className="card-link">
+                <button onClick={handleLike} className="card-link">
                 { isLiked ?
-                    <i onClick={handleLike} className="fas fa-heart"></i>  :  <i className="far fa-heart"></i>
+                    <i className="fas fa-heart"></i>  :  <i className="far fa-heart"></i>
                 }
                 {props.Likes.length}
-                </a>
-                <a className="card-link" onClick={handleDisplayComment}><i className="fa fa-comment"></i> Commentaires  {props.Comments.length}</a>
+                </button>
+                <button className="card-link" onClick={handleDisplayComment}>
+                    <i className="fa fa-comment"></i> Commentaires  {props.Comments.length}
+                </button>
             </div>
             {displayComments ? (
                 <CommentsContainer

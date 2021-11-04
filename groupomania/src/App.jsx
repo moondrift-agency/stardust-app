@@ -1,4 +1,4 @@
-import {BrowserRouter, Switch, Route, Router} from "react-router-dom";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 import "./App.css";
 
 //bootstrap
@@ -22,9 +22,8 @@ import {updateUser, logout} from "./redux/actions/userActions";
 
 import JwtDecode from "jwt-decode";
 import Profile from "./components/Profile/Profile";
-import {history} from "./helpers/history";
 
-const App = (props) => {
+const App = () => {
     const token = JSON.parse(localStorage.getItem("userToken"));
 
     if (token) {

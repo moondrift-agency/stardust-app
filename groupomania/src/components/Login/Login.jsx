@@ -56,14 +56,13 @@ const Login = (props) => {
         <div className="card card-connexion">
           <div className="card-header text-muted">CONNEXION</div>
           <div className="card-body">
-            <img className="home-logo" src={logo}></img>
             <form onSubmit={formik.handleSubmit}>
               <div className="col-md-10 form-group mx-auto">
                 <label
                     htmlFor="email"
                     className="col-form-label text-md-right"
                 >
-                  E-Mail
+                  E-mail
                 </label>
                 <input
                     type="text"
