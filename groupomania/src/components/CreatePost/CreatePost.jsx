@@ -50,7 +50,7 @@ const CreatePost = (props) => {
                         </div>
                         <div className="btn-toolbar justify-content-between">
                             <div className="btn-group">
-                                <button type="submit" className="btn btn-primary">Poster</button>
+                                <button type="submit" className="btn-groupomania">Poster</button>
                             </div>
                         </div>
                     </div>

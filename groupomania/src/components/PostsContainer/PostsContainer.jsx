@@ -15,10 +15,10 @@ const PostsContainer = (props) => {
 
     return(
         <div className="row">
-            <div className="col-md-4">
+            <div className="col-md-3">
                 <SideNav/>
             </div>
-            <div className="col-md-8">
+            <div className="col-md-9">
                 <CreatePost/>
                 <div className='posts-container'>
                     {posts?.map(({id,content,attachment,title,createdAt,User,Likes,Comments}) =>

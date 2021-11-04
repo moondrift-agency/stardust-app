@@ -13,7 +13,7 @@ const Navbar = (props) => {
     }
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
             <div className="container d-flex">
                 <Link to={"/"} className="navbar-brand">
                     <img className="d-inline-block align-text-top" height="28" alt="" src={props.logo}></img>

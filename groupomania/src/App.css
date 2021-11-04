@@ -6,3 +6,37 @@ html, body, #root, .App {
     display: flex;
     flex-direction: column;
 }
+
+.card {
+    border-radius: 10px !important;
+    box-shadow: grey 0 10px 12px -10px !important;
+}
+
+/*Utils*/
+.btn-groupomania {
+    background: #FD2D01;
+    border: 2px solid #FD2D01 !important;
+    border-radius: 999px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Inter, Helvetica, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    opacity: 1;
+    outline: 0 solid transparent;
+    padding: 8px 14px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: fit-content;
+    word-break: break-word;
+    border: 0;
+}
+
+.btn-groupomania:hover {
+    background-color: #FFFFFF;
+    border: 2px solid #FD2D01;
+    color: #FD2D01;
+}
