@@ -5,25 +5,6 @@ import { getUser } from "../../services/user.service";
 import "./Profile.css"
 import RootProfile from "./RootProfile/RootProfile";
 
-/*
-  http://localhost:8081/api/users/accounts/{id}
-  
-  ASK API TO RETRIEVE DETAILS ABOUT A SPECIFIC USER TO CREATE A PROFILE
-  ----------------------------------------------------------------------
-    ID IS FETCHED AS AN URL PARAMETER
-    DISPATCH() IS USED TO STORE DATA RETRIEVED BY API AS A STATE IN THE STORE 
-    MAPSTATETOSTORE()  IS USED TO REFLECT ANY UPDATES TO THE REDUX STORE AND MERGE THEM INTO PROPS
-    USESELECTOR() IS USED TO READ THE STATE
-
-    COMPONENT DISPLAYED : 
-      avatar
-      firstname
-      lastname
-      email
-      department
-      job
-*/
-
 const Profile = (props) => {
   let { id } = useParams();
   

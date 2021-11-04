@@ -30,8 +30,6 @@ const CreateComment = (props) => {
         validate
     })
 
-    console.log('Form errors', formik.errors.message)
-
     return(
         <div className="container">
             <form onSubmit={formik.handleSubmit}>

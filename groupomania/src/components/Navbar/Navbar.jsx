@@ -5,7 +5,6 @@ import "./NavBar.css";
 
 const Navbar = (props) => {
     const currentUser = useSelector((state) => state.user);
-    const currentUserProfile = "/user/"+currentUser.id;
     const dispatch = useDispatch();
 
     const logOut = () => {
@@ -16,7 +15,7 @@ const Navbar = (props) => {
         <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
             <div className="container d-flex">
                 <Link to={"/"} className="navbar-brand">
-                    <img className="d-inline-block align-text-top" height="28" alt="" src={props.logo}></img>
+                    <img className="d-inline-block align-text-top" height="28" alt="logo-groupomania" src={props.logo}></img>
                 </Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"

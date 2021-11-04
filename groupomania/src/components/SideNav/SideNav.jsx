@@ -5,6 +5,7 @@ import "./SideNav.css";
 
 const SideNav = () => {
     const currentUser = useSelector((state) => state.user);
+    const currentUserProfile = "/user/"+currentUser.data.id;
 
     let avatar;
     if (currentUser.data.avatar === null) {
@@ -23,7 +24,7 @@ const SideNav = () => {
                 <p className="text-muted font-size-sm">{currentUser.data.department}</p>
             </div>
             <div className="card-footer card-sidenav-footer d-flex justify-content-center">
-                <Link to={"/user"} className="nav-link">
+                <Link to={currentUserProfile} className="nav-link">
                     <button className="btn-groupomania" type="button">
                         Voir mon profil
                     </button>
