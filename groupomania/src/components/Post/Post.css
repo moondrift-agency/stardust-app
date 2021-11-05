@@ -1,3 +1,19 @@
+.post-user-avatar {
+    width: 2em;
+    margin-right: 0.5em;
+}
+
+.post-user-link {
+    color: #F26764;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.post-user-link:hover {
+    color: #F26764;
+    text-decoration: underline;
+}
+
 .post-card-body {
     padding: 0.3em 0.6em;
 }
@@ -20,4 +36,29 @@
 
 .dropdown-toggle::after {
     display: none;
+}
+
+.post-footer {
+    padding: .5rem 1rem;
+}
+
+.post-btn {
+    border: none;
+    color: #F26764;
+    background-color: unset;
+}
+
+.post-ellipsis-btn {
+    border-radius: 50%;
+}
+
+.post-delete-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.post-delete-button:hover {
+    background-color: rgba(0,0,0,.03);
 }

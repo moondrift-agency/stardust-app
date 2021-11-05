@@ -17,18 +17,24 @@ const Post = (props) => {
     const [postDate, setDate] = useState();
     const currentUser = useSelector((state) => state.user.data);
     const [isLiked, updateLike] = useState(false);
-    
+
+    function hasValue(obj, key, value) {
+        return obj.hasOwnProperty(key) && obj[key] === value ;
+    }
+
     useEffect(() => {
         if(currentUser.id === props.User.id ){
             setOwned(true);
         }
 
+        //on met des avatar par défaut si l'utilisateur n'en a pas
         if(props.User.avatar === null){
             setUserAvatar(defaultAvatar);
         } else if(props.User.avatar !== null) {
             setUserAvatar(props.User.avatar);
         }
 
+        //on affiche que le post est liké pas le currentUser si c'est le cas
         props.Likes.forEach(element => {
             if(hasValue(element, "UserId", currentUser.id)){
                 updateLike(true);
@@ -43,8 +49,7 @@ const Post = (props) => {
             new Date(props.createdAt).getHours() + "h" +
             new Date(props.createdAt).getMinutes()
         );
-
-    }, [])
+    }, []);
 
     const handleLike = () => {
         if(!isLiked){
@@ -56,9 +61,6 @@ const Post = (props) => {
             likePost(props.id);
             updateLike(false);
         }
-    }
-    function hasValue(obj, key, value) {
-        return obj.hasOwnProperty(key) && obj[key] === value ;
     }
 
     const onDeleteClick = () => {
@@ -79,21 +81,18 @@ const Post = (props) => {
                 <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="mr-2">
-                            <img className="rounded-circle" width="45" src={userAvatar} alt=""></img>
-                            <a className="user-link" href={userProfile}>{props.User.firstname} {props.User.lastname}</a>
-                        </div>
-                        <div className="ml-2">
-
+                            <img className="rounded-circle post-user-avatar" width="45" src={userAvatar} alt=""></img>
+                            <a className="post-user-link" href={userProfile}>{props.User.firstname} {props.User.lastname}</a>
                         </div>
                     </div>
                     {(Owned || currentUser.isAdmin) ? (
                         <div>
                             <div className="dropdown">
-                                <button className="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button className="post-btn post-ellipsis-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i className="fas fa-ellipsis-h"></i>
                                 </button>
                                 <ul className="dropdown-menu dropdown-menu-right">
-                                    <li className="dropdown-item red-li-button" onClick={onDeleteClick} type="button" href="#"><i className="fas fa-trash"></i> Supprimer</li>
+                                    <li className="dropdown-item post-delete-button text-muted" onClick={onDeleteClick} type="button" href="#"><i className="fas fa-trash"></i> Supprimer</li>
                                 </ul>
                             </div>
                         </div>
@@ -103,26 +102,26 @@ const Post = (props) => {
             </div>
             <div className="card-body post-card-body">
                 <div className="card-body-header d-flex flex-column">
-                    <h5 className="post-card-title">{props.title}</h5>
+                    <h4 className="post-card-title">{props.title}</h4>
                     <div className="post-card-date text-muted h7"><i className="far fa-clock"></i> {postDate}</div>
                 </div>
 
                 {props.attachment ? (
-                    <img className="card-img" src={props.attachment}></img>
+                    <img className="card-img post-img" src={props.attachment}></img>
                 ) : null
                 }
                 <p className="card-text">
                     {props.content}
                 </p>
             </div>
-            <div className="card-footer d-flex">
-                <button onClick={handleLike} className="card-link">
+            <div className="post-footer d-flex">
+                <button onClick={handleLike} className="post-btn card-link">
                 { isLiked ?
                     <i className="fas fa-heart"></i>  :  <i className="far fa-heart"></i>
                 }
                 {props.Likes.length}
                 </button>
-                <button className="card-link" onClick={handleDisplayComment}>
+                <button className="post-btn card-link" onClick={handleDisplayComment}>
                     <i className="fa fa-comment"></i> Commentaires  {props.Comments.length}
                 </button>
             </div>

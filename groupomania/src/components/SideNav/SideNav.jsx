@@ -14,7 +14,6 @@ const SideNav = () => {
         avatar = currentUser.data.avatar;
     }
 
-    //TODO : sticky-top
     return (
         <div className="card">
             <div className="card-body text-center">

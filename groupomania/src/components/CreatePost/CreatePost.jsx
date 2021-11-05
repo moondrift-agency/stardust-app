@@ -1,55 +1,24 @@
-import React, {useState} from "react";
 import {connect} from "react-redux";
-import { useFormik, setFieldValue } from 'formik';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 import {createPost} from "../../redux/actions/contentActions";
 
 import './CreatePost.css';
 
 const CreatePost = (props) => {
-    //const [title, setTitle] = useState();
-    //const [content, setContent] = useState();
-    const [file, setFile] = useState();
-
-    const initialValues = {
-        title: '',
-        content: '',
-        file: null
-    }
-
     const onSubmit = values => {
-        //e.preventDefault();
+        const postData = new FormData();
+        postData.append('title', values.title);
+        postData.append('content', values.content);
+        postData.append('file', values.file);
 
-        /*const postData = new FormData();
-        postData.append('title', title);
-        postData.append('content', content);
-        postData.append('file', file);*/
-
-        props.createPost(formik.values);
+        props.createPost(postData);
     }
 
-    const validate = values => {
-        const errors = {};
-
-        if(!values.title) {
-            errors.title = "Tu ne peux pas mettre un titre vide !";
-        } else if (values.title.length < 10) {
-            errors.title = "Ton titre dois contenir au moins 10 caractères.";
-        }
-
-        if(!values.content) {
-            errors.content = "Tu ne peux pas mettre un contenu vide !";
-        } else if (values.content.length < 50) {
-            errors.content = "Ton post dois contenir au moins 30 caractères.";
-        }
-
-        return errors;
-    }
-
-    const formik = useFormik({
-        initialValues,
-        onSubmit,
-        validate
+    const validationSchema = Yup.object({
+        title: Yup.string().required('Ce champ ne peut être vide !'),
+        content: Yup.string().required('Ce champ ne peut être vide !')
     })
 
     return (
@@ -58,61 +27,55 @@ const CreatePost = (props) => {
                 <div className="card-createpost-title text-muted"><i className="far fa-plus-square"></i> Créer un post</div>
             </div>
             <div className="card-body">
-                <form onSubmit={formik.handleSubmit}>
-                    <div className="form-group">
-                        <div className="input-group mb-2 d-flex flex-column">
-                            <label className="form-label">Titre</label>
-                            <input
-                                className="form-control form-control-sm title-form"
-                                name="title"
-                                type="text"
-                                value={formik.values.title}
-                                onChange={formik.handleChange}
-                            >
-                            </input>
-                            {formik.errors.title ? (
-                                <div className="form-error">
-                                    {formik.errors.title}
+                <Formik
+                    initialValues={{
+                        title: '',
+                        content: '',
+                        file: ''
+                    }}
+                    validationSchema={validationSchema}
+                    onSubmit={onSubmit}>
+                    {(formProps) => (
+                        <Form>
+                            <div className="form-group">
+                                <div className="input-group mb-2 d-flex flex-column">
+                                    <label className="form-label">Titre</label>
+                                    <Field
+                                        className="form-control form-control-sm title-form"
+                                        name="title"
+                                        type="text"
+                                    >
+                                    </Field>
                                 </div>
-                            ) : null
-                            }
-                        </div>
-                        <div className="input-group mb-3 d-flex flex-column">
-                            <label className="form-label">Contenu</label>
-                            <textarea
-                                className="form-control form-control-sm content-form"
-                                name="content"
-                                value={formik.values.content}
-                                onChange={formik.handleChange}
-                                rows="4"
-                            >
-                            </textarea>
-                            {formik.errors.title ? (
-                                <div className="form-error">
-                                    {formik.errors.content}
+                                <div className="input-group mb-3 d-flex flex-column">
+                                    <label className="form-label">Contenu</label>
+                                    <textarea
+                                        className="form-control form-control-sm content-form"
+                                        name="content"
+                                        rows="4"
+                                    >
+                                    </textarea>
                                 </div>
-                            ) : null
-                            }
-                        </div>
-                        <div className="input-group mb-3">
-                            <input
-                                className="form-control form-control-sm upload-form"
-                                name="file"
-                                type="file"
-                                value={formik.values.file}
-                                onChange={(e) => {
-                                    setFile({"file": e.currentTarget.files[0]});
-                                }}
-                            >
-                            </input>
-                        </div>
-                        <div className="btn-toolbar justify-content-between">
-                            <div className="btn-group">
-                                <button type="submit" className="btn-groupomania">Poster</button>
+                                <div className="input-group mb-3">
+                                    <input
+                                        className="form-control form-control-sm upload-form"
+                                        name="file"
+                                        type="file"
+                                        onChange={(event) =>{
+                                            formProps.setFieldValue("file", event.currentTarget.files[0]);
+                                        }}
+                                    >
+                                    </input>
+                                </div>
+                                <div className="btn-toolbar justify-content-between">
+                                    <div className="btn-group">
+                                        <button type="submit" className="btn-groupomania">Poster</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </form>
+                        </Form>
+                    )}
+                </Formik>
             </div>
         </div>
     );

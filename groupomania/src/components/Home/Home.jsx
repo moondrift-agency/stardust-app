@@ -10,7 +10,9 @@ const Home = (props) => {
             {currentUser.isLoggedIn ? (
                 <PostsContainer/>
             ) : (
-                <Redirect to="/login" />
+                <div className="alert alert-danger" role="alert">
+                    Vous devez être connecté pour voir les posts !
+                </div>
             )
             }
         </div>
