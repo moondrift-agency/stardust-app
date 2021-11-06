@@ -77,6 +77,10 @@ export const createComment = (message, id) => async (dispatch) => {
         })
 }
 
+export const deleteComment = (id) => async (dispatch) => {
+
+}
+
 export const likePost = async (id) => {
     await axios
         .post(API_URL + id + '/like', null, {

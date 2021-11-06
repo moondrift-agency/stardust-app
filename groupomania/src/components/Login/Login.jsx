@@ -1,9 +1,12 @@
 import React, {useState} from "react";
-import {Formik, Form, Field, ErrorMessage} from 'formik';
 import {connect} from "react-redux";
 
-import {login} from "../../redux/actions/userActions";
+//forms
+import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from "yup";
+
+//actions
+import {login} from "../../redux/actions/userActions";
 
 const Login = (props) => {
     const [loading, setLoading] = useState(false);

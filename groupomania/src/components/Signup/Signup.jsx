@@ -1,147 +1,129 @@
-import React, { useState } from "react";
-import {connect, useDispatch} from "react-redux";
-import {useFormik} from "formik";
+import {connect} from "react-redux";
 
-//redux
-import { signup } from "../../redux/actions/userActions";
+//forms
+import {Formik, Form, Field, ErrorMessage} from 'formik';
+import * as Yup from "yup";
+
+//actions
+import {signup} from "../../redux/actions/userActions";
 
 const Signup = (props) => {
-  //const { message } = this.props;
 
-  const [firstname, setFirstname] = useState();
-  const [lastname, setLastname] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+    const onSubmit = values => {
+        const newUserData = {
+            "firstname": values.firstname,
+            "lastname": values.lastname,
+            "email": values.email,
+            "password": values.password,
+        };
 
-  const dispatch = useDispatch();
-
-  const initialValues = {
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: ''
-  }
-
-  const onSubmit = () => {
-    const newUserData = {
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      password: password,
+        props.signup(newUserData)
+            .then(() => {
+                //setSuccessful(true);
+            })
     };
 
-    dispatch(signup(newUserData))
-      .then(() => {
-        //setSuccessful(true);
-      })
-  };
+    const validationSchema = Yup.object({
+        firstname: Yup.string().required('Ce champ ne peut être vide !'),
+        lastname: Yup.string().required('Ce champ ne peut être vide !'),
+        email: Yup.string().required('Ce champ ne peut être vide !'),
+        password: Yup.string().required('Ce champ ne peut être vide !')
+    })
 
-  const validate = values => {
-    const errors = {};
+    return (
+        <div className="d-flex container h-100 align-items-center justify-content-center">
+            <div className="col-md-4">
+                <div className="card card-inscription">
+                    <div className="card-header text-muted">INSCRIPTION</div>
+                    <div className="card-body">
+                        <Formik
+                            initialValues={{
+                                firstname: '',
+                                lastname: '',
+                                email: '',
+                                password: ''
+                            }}
+                            validationSchema={validationSchema}
+                            onSubmit={onSubmit}>
+                            {(formProps) => (
+                                <Form>
+                                    <div>
+                                        <div className="col-md-10 form-group mx-auto">
+                                            <label
+                                                htmlFor="firstname"
+                                                className="col-form-label text-md-right"
+                                            >
+                                                Prénom
+                                            </label>
+                                            <Field
+                                                type="text"
+                                                className="form-control"
+                                                name="firstname"
+                                            />
+                                            <ErrorMessage name='firstname'/>
+                                        </div>
 
-    if(!values.email) {
-      errors.email = "Ce champ est requis !";
-    }
+                                        <div className="col-md-10 form-group mx-auto">
+                                            <label
+                                                htmlFor="lastname"
+                                                className="col-form-label text-md-right"
+                                            >
+                                                Nom
+                                            </label>
+                                            <Field
+                                                type="text"
+                                                className="form-control"
+                                                name="lastname"
+                                            />
+                                            <ErrorMessage name='lastname'/>
+                                        </div>
 
-    if(!values.password) {
-      errors.password = "Ce champ est requis !";
-    }
+                                        <div className="col-md-10 form-group mx-auto">
+                                            <label
+                                                htmlFor="email"
+                                                className="col-form-label text-md-right"
+                                            >
+                                                E-mail
+                                            </label>
+                                            <Field
+                                                type="text"
+                                                className="form-control"
+                                                name="email"
+                                            />
+                                            <ErrorMessage name='email'/>
+                                        </div>
 
-    return errors;
-  }
+                                        <div className="col-md-10 form-group mx-auto">
+                                            <label
+                                                htmlFor="password"
+                                                className="col-form-label text-md-right"
+                                            >
+                                                Mot-de-passe
+                                            </label>
+                                            <Field
+                                                type="password"
+                                                className="form-control"
+                                                name="password"
+                                            />
+                                            <ErrorMessage name='password'/>
+                                        </div>
 
-  const formik = useFormik({
-    initialValues,
-    onSubmit,
-    validate
-  })
-
-  return (
-    <div className="d-flex container h-100 align-items-center justify-content-center">
-      <div className="col-md-4">
-        <div className="card card-inscription">
-          <div className="card-header text-muted">INSCRIPTION</div>
-          <div className="card-body">
-            <form onSubmit={formik.handleSubmit}>
-              <div>
-                <div className="col-md-10 form-group mx-auto">
-                  <label
-                      htmlFor="firstname"
-                      className="col-form-label text-md-right"
-                  >
-                    Prénom
-                  </label>
-                  <input
-                      type="text"
-                      className="form-control"
-                      name="firstname"
-                      value={formik.values.firstname}
-                      onChange={formik.handleChange}
-                  />
+                                        <div className="form-group d-flex justify-content-center mt-4">
+                                            <button className="btn-groupomania">S'inscrire</button>
+                                        </div>
+                                    </div>
+                                </Form>
+                            )}
+                        </Formik>
+                    </div>
                 </div>
-
-                <div className="col-md-10 form-group mx-auto">
-                  <label
-                      htmlFor="lastname"
-                      className="col-form-label text-md-right"
-                  >
-                    Nom
-                  </label>
-                  <input
-                      type="text"
-                      className="form-control"
-                      name="lastname"
-                      value={formik.values.lastname}
-                      onChange={formik.handleChange}
-                  />
-                </div>
-
-                <div className="col-md-10 form-group mx-auto">
-                  <label
-                      htmlFor="email"
-                      className="col-form-label text-md-right"
-                  >
-                    E-mail
-                  </label>
-                  <input
-                      type="text"
-                      className="form-control"
-                      name="email"
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                  />
-                </div>
-
-                <div className="col-md-10 form-group mx-auto">
-                  <label
-                      htmlFor="password"
-                      className="col-form-label text-md-right"
-                  >
-                    Mot-de-passe
-                  </label>
-                  <input
-                      type="password"
-                      className="form-control"
-                      name="password"
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                  />
-                </div>
-
-                <div className="form-group d-flex justify-content-center mt-4">
-                  <button className="btn-groupomania">S'inscrire</button>
-                </div>
-              </div>
-            </form>
-          </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 const mapActionsToProps = {
-  signup,
+    signup,
 };
 
 export default connect(null, mapActionsToProps)(Signup);
