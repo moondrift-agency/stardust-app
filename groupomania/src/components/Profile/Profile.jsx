@@ -12,6 +12,7 @@ const Profile = (props) => {
     const [Owned, setOwned] = useState();
 
     useEffect(() => {
+        console.log(currentUser)
 
         if (id && id !== currentUser.id) {
             getUser(id)

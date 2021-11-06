@@ -1,6 +1,7 @@
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {connect} from "react-redux";
 import "./App.css";
+import {useEffect} from "react";
 
 //bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -24,7 +25,7 @@ import JwtDecode from "jwt-decode";
 import Profile from "./components/Profile/Profile";
 
 const App = (props) => {
-    const token = JSON.parse(localStorage.getItem("userToken"));
+    /*const token = JSON.parse(localStorage.getItem("userToken"));
 
     console.log(props)
 
@@ -35,7 +36,7 @@ const App = (props) => {
         } else {
             props.updateUser(decodedToken.sub);
         }
-    }
+    }*/
 
     return (
         <div className="App">

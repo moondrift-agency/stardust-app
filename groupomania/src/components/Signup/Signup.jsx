@@ -8,7 +8,6 @@ import * as Yup from "yup";
 import {signup} from "../../redux/actions/userActions";
 
 const Signup = (props) => {
-
     const onSubmit = values => {
         const newUserData = {
             "firstname": values.firstname,
