@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import { Formik, Form, Field } from 'formik';
+import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 
 import {createPost} from "../../redux/actions/contentActions";
@@ -46,15 +46,18 @@ const CreatePost = (props) => {
                                         type="text"
                                     >
                                     </Field>
+                                    <ErrorMessage name="title" />
                                 </div>
                                 <div className="input-group mb-3 d-flex flex-column">
                                     <label className="form-label">Contenu</label>
-                                    <textarea
+                                    <Field
+                                        as="textarea"
+                                        rows="4"
                                         className="form-control form-control-sm content-form"
                                         name="content"
-                                        rows="4"
                                     >
-                                    </textarea>
+                                    </Field>
+                                    <ErrorMessage name="content" />
                                 </div>
                                 <div className="input-group mb-3">
                                     <input

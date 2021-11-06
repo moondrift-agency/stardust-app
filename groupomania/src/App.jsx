@@ -1,4 +1,5 @@
 import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {connect} from "react-redux";
 import "./App.css";
 
 //bootstrap
@@ -17,21 +18,22 @@ import UserList from "./components/UserList/UserList";
 import logo from './assets/logos/logo-groupomania.png';
 
 //redux
-import store from './redux/store';
 import {updateUser, logout} from "./redux/actions/userActions";
 
 import JwtDecode from "jwt-decode";
 import Profile from "./components/Profile/Profile";
 
-const App = () => {
+const App = (props) => {
     const token = JSON.parse(localStorage.getItem("userToken"));
+
+    console.log(props)
 
     if (token) {
         const decodedToken = JwtDecode(token);
         if (decodedToken.exp * 1000 < Date.now()) {
-            store.dispatch(logout())
+            props.logout();
         } else {
-            store.dispatch(updateUser(decodedToken.sub));
+            props.updateUser(decodedToken.sub);
         }
     }
 
@@ -56,4 +58,8 @@ const App = () => {
     );
 };
 
-export default App;
+const mapActionsToProps = {
+    updateUser, logout
+};
+
+export default connect(null, mapActionsToProps)(App);

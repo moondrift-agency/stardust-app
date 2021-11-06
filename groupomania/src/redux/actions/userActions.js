@@ -7,77 +7,84 @@ import {
     SET_REGISTERED,
     SET_UNREGISTERED
 } from "../types";
+import axios from "axios";
+import authHeader from "../../services/auth-header";
 
-import { postLogin, postSignup, deleteLocalStorage } from "../../services/auth.service";
-import { getUser } from "../../services/user.service";
+const API_URL = 'http://localhost:8081/api/users/';
 
-export const signup = (newUserData) => (dispatch) => {
-    return postSignup(newUserData).then(
-        (response) => {
+export const signup = (newUserData) => async (dispatch) => {
+    await axios
+        .post(API_URL + "signup", newUserData)
+        .then((response) => {
             dispatch({
                 type: SET_REGISTERED,
             });
 
-            return Promise.resolve();
-        },
-        (error) => {
-            /*const message =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();*/
-
+            return response;
+        })
+        .catch((error) => {
             dispatch({
                 type: SET_UNREGISTERED,
             });
 
-            return Promise.reject();
-        }
-    );
+            console.error(error);
+            return error;
+        });
 };
 
-export const login = (userData) => (dispatch) => {
-    return postLogin(userData).then(
-        (data) => {
+//TODO: voir pour améliorer la qualité du code
+export const login = (userData) => async (dispatch) => {
+    await axios
+        .post(API_URL + "login", userData)
+        .then((response) => {
+            if (response.data.token) {
+                localStorage.setItem("userToken", JSON.stringify(response.data.token));
+            }
+
             dispatch({
                 type: SET_AUTHENTICATED
             });
 
             dispatch({
                 type: SET_USER,
-                payload: data
+                payload: response.data
             });
 
-            return Promise.resolve();
-        },
-        (error) => {
-            /*const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();*/
-
+            return response;
+        })
+        .catch((error) => {
             dispatch({
                 type: SET_UNAUTHENTICATED,
             });
 
-            return Promise.reject();
-        }
-    );
+            console.error(error);
+            return error;
+        });
 };
 
-export const updateUser = (id) => (dispatch) => {
-    return getUser(id).then(
-        (data) => {
+export const logout = () => async (dispatch) => {
+    await localStorage.removeItem("userToken");
+
+    dispatch({
+        type: SET_UNAUTHENTICATED
+    });
+}
+
+export const updateUser = (id) => async (dispatch) => {
+    await axios
+        .get(API_URL + 'accounts/' + id, {
+            headers: {
+                'Authorization': authHeader()
+            }
+        })
+        .then((response) => {
             dispatch({
                 type: SET_AUTHENTICATED,
             });
 
             dispatch({
                 type: UPDATE_USERDATA,
-                payload: data.data
+                payload: response.data
             });
 
             dispatch({
@@ -85,25 +92,10 @@ export const updateUser = (id) => (dispatch) => {
                 payload: JSON.parse(localStorage.getItem("userToken"))
             })
 
-            return Promise.resolve();
-        },
-        (error) => {
-            /*const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();*/
-
-            return Promise.reject();
-        }
-    )
-}
-
-export const logout = () => (dispatch) => {
-    deleteLocalStorage()
-
-    dispatch({
-        type: SET_UNAUTHENTICATED
-    });
+            return response;
+        })
+        .catch((error) => {
+            console.error(error);
+            return error;
+        });
 }

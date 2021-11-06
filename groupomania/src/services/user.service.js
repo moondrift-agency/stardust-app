@@ -4,8 +4,6 @@ import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8081/api/users/';
 
-//  router.get("/accounts/:id", userController.getCurrentUser);
-
 // METHOD TO RETRIEVE ALL USERS
 export const getAllUsers = () => {
     return axios

@@ -17,7 +17,7 @@ export const contentReducer = (state=initialState, action) => {
             }
         case ADD_POST:
             copyList = state.posts.slice();
-            copyList.push(action.payload);
+            copyList.unshift(action.payload);
             return {
                 ...state,
                 posts: copyList
