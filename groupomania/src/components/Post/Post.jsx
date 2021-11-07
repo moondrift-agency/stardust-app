@@ -38,7 +38,7 @@ const Post = (props) => {
         props.Likes.forEach(element => {
             if(hasValue(element, "UserId", currentUser.id)){
                 updateLike(true);
-            }   
+            }
         });
         
         setDate(

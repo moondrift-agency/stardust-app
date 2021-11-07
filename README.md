@@ -20,8 +20,19 @@ The following requirements were made by the steering committee:
 - [x] Users should be able to easily find the latest employee contributions;
 - [x] The Groupomania communication officer must be able to moderate interactions between employees;
 
+## Configuration de la base de donnée
+
+- créer une base de donnée MySQL ``database_production``
+- configurer le mot-de-passe root pour l'accès à la base de donnée
+
 ## Installation du backend
 
-- 
+- se placer dans le répertoire de l'api : ``cd api``
+- installer les dépendances : ``npm install``
+- lancer l'api : ``node server.js``
 
 ## Installation du frontend
+
+- se placer dans le répertoire du frontend : ``cd groupomania``
+- installer les dépendances : ``npm install``
+- lancer l'application : ``npm start``

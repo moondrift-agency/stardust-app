@@ -5,7 +5,7 @@ import {
     UPDATE_USERDATA,
     UPDATE_USERTOKEN,
     SET_REGISTERED,
-    SET_UNREGISTERED
+    SET_UNREGISTERED, DELETE_USER
 } from "../types";
 import axios from "axios";
 import authHeader from "../../services/auth-header";
@@ -94,6 +94,31 @@ export const updateUserData = (id , data) => (dispatch) => {
             })
 
             return response.data.user;
+        })
+        .catch((error) => {
+            console.error(error);
+            return error;
+        })
+}
+
+export const deleteAccount = (id) => async (dispatch) => {
+    await axios
+        .delete(API_URL + "/accounts/", {
+            headers: {
+                'Authorization': authHeader()
+            }
+        })
+        .then((response) => {
+            dispatch({
+                type: DELETE_USER,
+            })
+
+            window.location.reload(false);
+
+            sessionStorage.removeItem("datas");
+            localStorage.removeItem("userToken");
+
+            return response;
         })
         .catch((error) => {
             console.error(error);

@@ -1,0 +1,16 @@
+.post-comment {
+    background-color: #F26764;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+.post-comment-author {
+    font-weight: 600;
+    color: #fff;
+}
+
+.post-comment-message {
+    font-size: 17px;
+    font-weight: 600;
+    color: #000;
+}

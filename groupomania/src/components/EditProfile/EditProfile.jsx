@@ -3,7 +3,7 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {connect} from "react-redux";
 
-import {updateUserData} from "../../redux/actions/userActions";
+import {updateUserData , deleteAccount} from "../../redux/actions/userActions";
 
 const EditProfile = (props) => {
     const onSubmit = values => {
@@ -18,6 +18,10 @@ const EditProfile = (props) => {
                 console.log(response);
             });
     };
+
+    const onDelete = () => {
+        props.deleteAccount(props.id);
+    }
 
     const validationSchema = Yup.object({
         firstname: Yup.string().required('Ce champ ne peut être vide !'),
@@ -99,8 +103,11 @@ const EditProfile = (props) => {
                                 <ErrorMessage name='job'/>
                             </div>
 
-                            <div className="form-group d-flex justify-content-center mt-4">
+                            <div className="form-group d-flex justify-content-center mt-4 mb-4">
                                 <button className="btn-groupomania">Enregistrer</button>
+                            </div>
+                            <div className="form-group d-flex justify-content-center mt-4 mb-4">
+                                <button className="btn-groupomania" onClick={onDelete}>Supprimer le compte</button>
                             </div>
                         </div>
                     </Form>
@@ -112,6 +119,7 @@ const EditProfile = (props) => {
 
 const mapActionsToProps = {
     updateUserData,
+    deleteAccount
 };
 
 export default connect(null, mapActionsToProps)(EditProfile);

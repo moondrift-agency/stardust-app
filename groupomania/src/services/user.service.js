@@ -20,13 +20,6 @@ export const getAllUsers = () => {
         })
 }
 
-// UPDATE PROFILE INFORMATION
-// router.put("/accounts/:id?", tokenChecker, multer, userController.updateAccount);
-export const updateProfile = (id, data) => {
-    return axios
-
-}
-
 // DELETE USER
 // router.delete("/accounts/:id?", tokenChecker, userController.deleteAccount);
 export const deleteProfile = () => {
