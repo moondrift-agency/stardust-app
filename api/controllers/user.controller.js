@@ -117,6 +117,7 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.updateAccount = async (req, res) => {
+  console.log(req.body)
   // modifier le profil
   try {
     const userId = token.getUserId(req);

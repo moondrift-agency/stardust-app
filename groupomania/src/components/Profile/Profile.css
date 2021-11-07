@@ -2,6 +2,10 @@
   overflow: hidden
 }
 
+.card-user-name {
+  color: #000;
+}
+
 .user-card-full .user-profile {
   border-radius: 5px 0 0 5px
 }

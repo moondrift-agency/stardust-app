@@ -29,14 +29,6 @@ const Navbar = (props) => {
                                 Accueil
                             </Link>
                         </li>
-
-                        {currentUser.isLoggedIn && (
-                            <li className="nav-item">
-                                <Link to={"/users"} className="nav-link">
-                                    Utilisateurs
-                                </Link>
-                            </li>
-                        )}
                     </div>
                     <div className="d-flex">
                         {currentUser.isLoggedIn ? (

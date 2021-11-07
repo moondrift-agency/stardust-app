@@ -20,37 +20,11 @@ export const getAllUsers = () => {
         })
 }
 
-// METHOD TO RETRIEVE A SPECIFIC USER
-export const getUser = (id) => {
-    return axios
-        .get(API_URL + 'accounts/' + id, {
-            headers: {
-                'Authorization': authHeader()
-            }
-        })
-        .then((response) => {
-            return response;
-        })
-        .catch((error) => {
-            return error;
-        })
-}
-
 // UPDATE PROFILE INFORMATION
 // router.put("/accounts/:id?", tokenChecker, multer, userController.updateAccount);
 export const updateProfile = (id, data) => {
     return axios
-        .put(API_URL + 'accounts/' + id, data, {
-            headers: {
-                'Authorization': authHeader()
-            }
-        })
-        .then((response) => {
-            return response;
-        })
-        .catch((error) => {
-            return error;
-        })
+
 }
 
 // DELETE USER
@@ -69,4 +43,20 @@ export const deleteProfile = () => {
                 })
             }).catch((err) => console.log(err));
     };
+}
+
+export const getUser = (id) => {
+    return axios
+        .get(API_URL + 'accounts/' + id, {
+            headers: {
+                'Authorization': authHeader()
+            }
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.error(error);
+            return error;
+        });
 }

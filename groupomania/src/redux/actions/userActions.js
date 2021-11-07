@@ -70,11 +70,12 @@ export const logout = () => async (dispatch) => {
     });
 }
 
-export const updateUser = (id) => async (dispatch) => {
-    await axios
-        .get(API_URL + 'accounts/' + id, {
+export const updateUserData = (id , data) => (dispatch) => {
+    return axios
+        .put(API_URL + 'accounts/' + id, data, {
             headers: {
-                'Authorization': authHeader()
+                'Authorization': authHeader(),
+                'Content-Type': 'multipart/form-data'
             }
         })
         .then((response) => {
@@ -84,7 +85,7 @@ export const updateUser = (id) => async (dispatch) => {
 
             dispatch({
                 type: UPDATE_USERDATA,
-                payload: response.data
+                payload: response.data.user
             });
 
             dispatch({
@@ -92,10 +93,10 @@ export const updateUser = (id) => async (dispatch) => {
                 payload: JSON.parse(localStorage.getItem("userToken"))
             })
 
-            return response;
+            return response.data.user;
         })
         .catch((error) => {
             console.error(error);
             return error;
-        });
+        })
 }

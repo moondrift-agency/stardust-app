@@ -115,11 +115,11 @@ const Post = (props) => {
                 </p>
             </div>
             <div className="post-footer d-flex">
-                <button onClick={handleLike} className="post-btn card-link">
-                { isLiked ?
-                    <i className="fas fa-heart"></i>  :  <i className="far fa-heart"></i>
-                }
-                {props.Likes.length}
+                <button onClick={handleLike} className="post-btn card-link d-flex flex-row justify-content-center align-items-center">
+                    { isLiked ?
+                        <i className="fas fa-heart"></i>  :  <i className="far fa-heart"></i>
+                    }
+                    <p className="likes-counter">{props.Likes.length}</p>
                 </button>
                 <button className="post-btn card-link" onClick={handleDisplayComment}>
                     <i className="fa fa-comment"></i> Commentaires  {props.Comments.length}

@@ -30,7 +30,6 @@ html, body, #root, .App {
 .btn-groupomania {
     background: #F26764;
     border: 2px solid #F26764 !important;
-    border-radius: 999px;
     box-sizing: border-box;
     color: #FFFFFF;
     cursor: pointer;
@@ -49,8 +48,24 @@ html, body, #root, .App {
     border: 0;
 }
 
+.btn-round {
+    border-radius: 10px;
+}
+
 .btn-groupomania:hover {
     background-color: #FFFFFF;
     border: 2px solid #F26764;
     color: #F26764;
+}
+
+.btn-groupomania-second {
+    background: #fff;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-family: Inter, Helvetica, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", sans-serif;
+    font-size: 14px;
+}
+
+.btn-groupomania-second:hover {
+    background: #f7f7f7;
 }

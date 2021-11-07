@@ -20,7 +20,7 @@ const Login = (props) => {
         }
 
         props.login(loginData)
-            .then(() => {
+            .then((response) => {
                 history.push("/home");
             })
             .catch(() => {
@@ -96,16 +96,8 @@ const Login = (props) => {
     );
 };
 
-function mapStateToProps(state) {
-    const {isLoggedIn} = state;
-
-    return {
-        isLoggedIn,
-    };
-}
-
 const mapActionsToProps = {
     login,
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(Login);
+export default connect(null, mapActionsToProps)(Login);

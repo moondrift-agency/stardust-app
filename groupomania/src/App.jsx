@@ -1,7 +1,6 @@
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import {connect} from "react-redux";
 import "./App.css";
-import {useEffect} from "react";
 
 //bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -19,25 +18,11 @@ import UserList from "./components/UserList/UserList";
 import logo from './assets/logos/logo-groupomania.png';
 
 //redux
-import {updateUser, logout} from "./redux/actions/userActions";
+import {logout} from "./redux/actions/userActions";
 
-import JwtDecode from "jwt-decode";
 import Profile from "./components/Profile/Profile";
 
 const App = (props) => {
-    /*const token = JSON.parse(localStorage.getItem("userToken"));
-
-    console.log(props)
-
-    if (token) {
-        const decodedToken = JwtDecode(token);
-        if (decodedToken.exp * 1000 < Date.now()) {
-            props.logout();
-        } else {
-            props.updateUser(decodedToken.sub);
-        }
-    }*/
-
     return (
         <div className="App">
             <BrowserRouter>
@@ -60,7 +45,7 @@ const App = (props) => {
 };
 
 const mapActionsToProps = {
-    updateUser, logout
+    logout
 };
 
 export default connect(null, mapActionsToProps)(App);
