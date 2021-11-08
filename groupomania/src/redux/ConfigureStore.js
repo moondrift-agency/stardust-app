@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 
 //reducers
 import userReducer from "./reducers/userReducer";
-import { contentReducer } from "./reducers/contentReducer";
+import contentReducer from "./reducers/contentReducer";
 import toastReducer from "./reducers/toastReducer";
 
 const ConfigureStore = () => {

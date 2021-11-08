@@ -4,7 +4,8 @@ import {
 } from "../types";
 
 const initialState = {
-    message: ""
+    message: "",
+    messageType: "" //success, error
 };
 
 export default function (state = initialState, action) {
@@ -12,7 +13,8 @@ export default function (state = initialState, action) {
         case SET_TOAST:
             return {
                 ...state,
-                message: action.payload
+                message: action.payload.message,
+                messageType: action.payload.messageType
             }
         case CLEAR_TOAST:
             return {}

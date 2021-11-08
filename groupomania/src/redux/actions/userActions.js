@@ -22,7 +22,10 @@ export const signup = (newUserData) => async (dispatch) => {
 
             dispatch({
                 type: SET_TOAST,
-                payload: response.data.message
+                payload:  {
+                    message: response.data,
+                    messageType: "success"
+                }
             });
 
             return response;
@@ -34,7 +37,10 @@ export const signup = (newUserData) => async (dispatch) => {
 
             dispatch({
                 type: SET_TOAST,
-                payload: error.response.data
+                payload: {
+                    message: error.response.data,
+                    messageType: "error"
+                }
             });
 
             return error.response;

@@ -1,5 +1,5 @@
 import {BrowserRouter, Switch, Route} from "react-router-dom";
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import "./App.css";
 
 //bootstrap
@@ -27,6 +27,8 @@ import Profile from "./components/Profile/Profile";
 import toast, { Toaster } from 'react-hot-toast';
 
 const App = (props) => {
+    const toastMessage = useSelector((state) => state.toast);
+
     const notify = () => {
         toast.success('Here is your toast.');
     }
@@ -58,5 +60,12 @@ const App = (props) => {
 const mapActionsToProps = {
     logout
 };
+
+function mapStateToProps(state) {
+    const {toastMessage} = state.toast
+    return {
+        toastMessage,
+    };
+}
 
 export default connect(null, mapActionsToProps)(App);

@@ -7,7 +7,7 @@ import {
 
 const initialState = {};
 
-export const contentReducer = (state=initialState, action) => {
+export default function (state = initialState, action) {
     let copyList = [];
     switch(action.type) {
         case SET_POSTS:
