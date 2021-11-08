@@ -19,7 +19,6 @@ const Signup = (props) => {
         props.signup(newUserData)
             .then((response) => {
                 //on redirige sur la page de login
-                //on affiche un message de confirmation de création de compte
             })
             .catch((error) => {
 

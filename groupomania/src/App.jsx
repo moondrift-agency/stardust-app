@@ -26,9 +26,11 @@ import Profile from "./components/Profile/Profile";
 //notifications
 import toast, { Toaster } from 'react-hot-toast';
 
-const notify = () => toast.success('Here is your toast.');
-
 const App = (props) => {
+    const notify = () => {
+        toast.success('Here is your toast.');
+    }
+
     return (
         <div className="App">
             <button onClick={notify}>Make me a toast</button>

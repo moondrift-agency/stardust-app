@@ -15,7 +15,8 @@ export const SET_POSTS = "SET_POSTS";
 export const ADD_POST = "ADD_POST";
 export const REMOVE_POST = "REMOVE_POST";
 export const ADD_COMMENT = "ADD_COMMENT";
+export const REMOVE_COMMENT = "REMOVE_COMMENT";
 
-//ERRORS
-export const SET_MESSAGE = "SET_MESSAGE";
-export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+//TOASTS
+export const SET_TOAST = "SET_TOAST";
+export const CLEAR_TOAST = "CLEAR_TOAST";

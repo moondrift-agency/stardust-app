@@ -15,9 +15,8 @@ exports.signup = async (req, res) => {
             if (
                 (user.email === req.body.email)
             ) {
-                return res
-                    .status(400)
-                    .json({error: "Vous avez déjà un compte avec cette adresse mail !"});
+                res.set('Content-Type', 'text/html');
+                return res.status(400).send("Vous avez déjà un compte avec cette adresse mail !");
             }
         } else {
             const hash = await bcrypt.hash(req.body.password, 10);
@@ -38,7 +37,7 @@ exports.signup = async (req, res) => {
             });
         }
     } catch (error) {
-        return res.status(500).send({error: "Erreur serveur"});
+        return res.status(500).send("Erreur serveur");
     }
 };
 
@@ -48,11 +47,11 @@ exports.login = async (req, res) => {
             where: {email: req.body.email},
         });
         if (user === null) {
-            return res.status(403).send({error: "Connexion échouée."});
+            return res.status(403).send("Connexion échouée.");
         } else {
             const hash = await bcrypt.compare(req.body.password, user.password);
             if (!hash) {
-                return res.status(401).send({error: "Mot de passe incorrect."});
+                return res.status(401).send("Mot de passe incorrect.");
             } else {
                 const tokenObject = await token.issueJWT(user);
                 res.status(200).send({
@@ -64,7 +63,7 @@ exports.login = async (req, res) => {
             }
         }
     } catch (error) {
-        return res.status(500).send({error: "Erreur serveur"});
+        return res.status(500).send("Erreur serveur");
     }
 };
 
@@ -85,7 +84,7 @@ exports.getUser = async (req, res) => {
 
         res.status(200).send(user);
     } catch (error) {
-        return res.status(500).send({error: "Erreur serveur"});
+        return res.status(500).send("Erreur serveur");
     }
 };
 
@@ -110,7 +109,7 @@ exports.getAllUsers = async (req, res) => {
         });
         res.status(200).send(users);
     } catch (error) {
-        return res.status(500).send({error: "Erreur serveur"});
+        return res.status(500).send("Erreur serveur");
     }
 };
 
@@ -157,16 +156,16 @@ exports.updateAccount = async (req, res) => {
             const newUser = await user.save({fields: ["firstname", "lastname", "avatar", "department", "job"]});
             res.status(200).json({
                 user: newUser,
-                messageRetour: "Votre profil a bien été modifié avec succès.",
+                message: "Votre profil a bien été modifié avec succès.",
             });
         } else {
             res
                 .status(400)
-                .json({messageRetour: "Vous n'avez pas les droits requis."});
+                .json("Vous n'avez pas les droits requis.");
         }
 
     } catch (error) {
-        return res.status(500).send({error: "Erreur serveur"});
+        return res.status(500).send("Erreur serveur");
     }
 };
 
@@ -179,13 +178,17 @@ exports.deleteAccount = async (req, res) => {
             const filename = user.avatar.split("/upload")[1];
             fs.unlink(`upload/${filename}`, () => {
                 db.User.destroy({where: {id: id}});
-                res.status(200).json({messageRetour: "Utilisateur supprimé avec succès."});
+                res.status(200).json({
+                    message: "Utilisateur supprimé avec succès."
+                });
             });
         } else {
             db.User.destroy({where: {id: id}});
-            res.status(200).json({messageRetour: "Utilisateur supprimé avec succès."});
+            res.status(200).json({
+                message: "Utilisateur supprimé avec succès."
+            });
         }
     } catch (error) {
-        return res.status(500).send({error: "Erreur serveur"});
+        return res.status(500).send("Erreur serveur");
     }
 };

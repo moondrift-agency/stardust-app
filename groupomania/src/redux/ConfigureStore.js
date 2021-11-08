@@ -5,6 +5,7 @@ import thunk from "redux-thunk";
 //reducers
 import userReducer from "./reducers/userReducer";
 import { contentReducer } from "./reducers/contentReducer";
+import toastReducer from "./reducers/toastReducer";
 
 const ConfigureStore = () => {
     let intialState = {};
@@ -23,7 +24,8 @@ const ConfigureStore = () => {
 
     const rootReducer = combineReducers({
         user: userReducer,
-        content: contentReducer
+        content: contentReducer,
+        toast: toastReducer
     });
 
     return createStore(rootReducer,intialState,composeWithDevTools(applyMiddleware(thunk,saver)));

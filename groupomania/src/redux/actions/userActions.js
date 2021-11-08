@@ -5,7 +5,7 @@ import {
     UPDATE_USERDATA,
     UPDATE_USERTOKEN,
     SET_REGISTERED,
-    SET_UNREGISTERED, DELETE_USER
+    SET_UNREGISTERED, DELETE_USER, SET_TOAST
 } from "../types";
 import axios from "axios";
 import authHeader from "../../services/auth-header";
@@ -20,15 +20,24 @@ export const signup = (newUserData) => async (dispatch) => {
                 type: SET_REGISTERED,
             });
 
+            dispatch({
+                type: SET_TOAST,
+                payload: response.data.message
+            });
+
             return response;
         })
         .catch((error) => {
             dispatch({
-                type: SET_UNREGISTERED,
+                type: SET_UNREGISTERED
             });
 
-            console.error(error);
-            return error;
+            dispatch({
+                type: SET_TOAST,
+                payload: error.response.data
+            });
+
+            return error.response;
         });
 };
 
