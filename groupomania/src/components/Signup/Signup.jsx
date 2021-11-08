@@ -17,9 +17,13 @@ const Signup = (props) => {
         };
 
         props.signup(newUserData)
-            .then(() => {
-                //setSuccessful(true);
+            .then((response) => {
+                //on redirige sur la page de login
+                //on affiche un message de confirmation de création de compte
             })
+            .catch((error) => {
+
+            });
     };
 
     const validationSchema = Yup.object({

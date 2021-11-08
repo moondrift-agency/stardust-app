@@ -3,3 +3,5 @@ groupomania/node_modules/
 .idea/
 
 api/upload/
+
+api/.env

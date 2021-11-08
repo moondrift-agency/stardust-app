@@ -33,7 +33,7 @@ exports.getAllPosts = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).send({
-      error: "Une erreur est survenu lors de la récupération des posts ",
+      error: "Une erreur est survenu lors de la récupération des posts.",
     });
   }
 };
@@ -98,7 +98,7 @@ exports.createPost = async (req, res) => {
         .status(201)
         .json({ post: returnPost, messageRetour: "Votre post a bien été créé !" });
     } else {
-      res.status(400).send({ error: "Erreur " });
+      res.status(400).send({ error: "Erreur" });
     }
   } catch (error) {
     console.log(error);
@@ -123,7 +123,7 @@ exports.deletePost = async (req, res) => {
         res.status(200).json({ message: "Post supprimé avec succès !" });
       }
     } else {
-      res.status(400).json({ message: "Vous n'avez pas les droits requis" });
+      res.status(400).json({ message: "Vous n'avez pas les droits requis." });
     }
   } catch (error) {
     return res.status(500).send({ error: "Erreur serveur" });
@@ -178,7 +178,7 @@ exports.addComment = async (req, res) => {
 
     res
       .status(201)
-      .json({ newComment, messageRetour: "Votre commentaire a été publié" });
+      .json({ newComment, messageRetour: "Votre commentaire a été publié avec succès !" });
   } catch (error) {
     return res.status(500).send({ error: "Erreur serveur" });
   }
@@ -192,9 +192,9 @@ exports.deleteComment = async (req, res) => {
 
     if (userId === comment.UserId || checkAdmin.admin === true) {
       db.Comment.destroy({ where: { id: req.params.id } }, { truncate: true });
-      res.status(200).json({ message: "Commentaire supprimé" });
+      res.status(200).json({ message: "Commentaire supprimé avec succès." });
     } else {
-      res.status(400).json({ message: "Vous n'avez pas les droits requis" });
+      res.status(400).json({ message: "Vous n'avez pas les droits requis." });
     }
   } catch (error) {
     return res.status(500).send({ error: "Erreur serveur" });

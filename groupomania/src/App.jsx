@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap';
 
 //components
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Navbar from './components/Navbar/Navbar';
 import Footer from "./components/Footer/Footer";
 import Login from "./components/Login/Login";
@@ -22,20 +23,28 @@ import {logout} from "./redux/actions/userActions";
 
 import Profile from "./components/Profile/Profile";
 
+//notifications
+import toast, { Toaster } from 'react-hot-toast';
+
+const notify = () => toast.success('Here is your toast.');
+
 const App = (props) => {
     return (
         <div className="App">
+            <button onClick={notify}>Make me a toast</button>
+            <Toaster />
+
             <BrowserRouter>
                 <Navbar
                     logo={logo}
                 />
 
                 <Switch>
-                    <Route exact path={["/", "/home"]} component={Home}/>
+                    <PrivateRoute exact path={["/", "/home"]} component={Home} />
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/signup" component={Signup}/>
-                    <Route exact path="/user/:id?" component={Profile}/>
-                    <Route exact path="/users" component={UserList}/>
+                    <PrivateRoute exact path="/user/:id?" component={Profile}/>
+                    <PrivateRoute exact path="/users" component={UserList}/>
                 </Switch>
 
                 <Footer/>
