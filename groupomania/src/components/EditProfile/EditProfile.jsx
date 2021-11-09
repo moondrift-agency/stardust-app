@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import {updateUserData , deleteAccount} from "../../redux/actions/userActions";
 
 const EditProfile = (props) => {
-    const onSubmit = (values, {resetForm}) => {
+    const onSubmit = (values) => {
         const newUserFormData = new FormData();
             newUserFormData.append("firstname", values.firstname);
             newUserFormData.append("lastname", values.lastname);

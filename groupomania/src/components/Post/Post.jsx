@@ -8,6 +8,8 @@ import "./Post.css";
 import CommentsContainer from "../CommentsContainer/CommentsContainer";
 
 const Post = (props) => {
+    const currentUser = useSelector((state) => state.user.data);
+
     //booleans
     const [displayComments, setDisplayComments] = useState(false);
 
@@ -15,7 +17,6 @@ const Post = (props) => {
     const [Owned, setOwned] = useState(false);
     const [userAvatar, setUserAvatar] = useState();
     const [postDate, setDate] = useState();
-    const currentUser = useSelector((state) => state.user.data);
     const [isLiked, updateLike] = useState(false);
 
     function hasValue(obj, key, value) {

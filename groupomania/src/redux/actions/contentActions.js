@@ -77,6 +77,18 @@ export const createComment = (message, id) => async (dispatch) => {
         })
 }
 
+export const deleteComment = (id) => async (dispatch) => {
+    await axios
+        .delete(API_URL + '/comments' + id, {
+            headers: {
+                'Authorization': authHeader()
+            }
+        })
+        .then((response) => {
+
+        })
+}
+
 export const likePost = async (id) => {
     await axios
         .post(API_URL + id + '/like', null, {
