@@ -22,14 +22,14 @@ const Profile = (props) => {
     }
 
     useEffect(() => {
-        if(id) {
+        if (id) {
             console.log(currentUser.id)
             if (id != currentUser.id) {
                 getUser(id).then((response) => {
                     setIsOwner(false);
                     setUser(response);
                 });
-            } else if(id == currentUser.id) {
+            } else if (id == currentUser.id) {
                 setIsOwner(true);
                 setUser(currentUser);
             }
@@ -38,7 +38,7 @@ const Profile = (props) => {
     }, [])
 
     const handleDisplayEdit = event => {
-        if(displayEdit === true) {
+        if (displayEdit === true) {
             setDisplayEdit(false);
         } else {
             setDisplayEdit(true);
@@ -51,7 +51,7 @@ const Profile = (props) => {
                 <div className="row">
                     <div className="col-sm-3 bg-c-lite-green user-profile">
                         <div className="card-block text-center text-white">
-                            <img className="user-profile-avatar"
+                            <img className="user-profile-avatar mb-3"
                                  src={avatar}
                                  alt="user avatar">
                             </img>
@@ -60,7 +60,7 @@ const Profile = (props) => {
                     </div>
                     <div className="col-sm-9">
                         <div className="card-block">
-                            <h6 className="">Information</h6>
+                            <h6 className="">Informations</h6>
                             <div className="row">
                                 <div className="col-sm-6">
                                     <p className="">E-mail</p>
@@ -89,7 +89,7 @@ const Profile = (props) => {
                         <button className="btn-groupomania" onClick={handleDisplayEdit}>
                             <span>Editer</span>
                         </button>
-                    ): null}
+                    ) : null}
                     {displayEdit ? (
                         <EditProfile
                             id={user.id}

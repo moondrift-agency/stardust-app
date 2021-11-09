@@ -59,6 +59,7 @@ exports.login = async (req, res) => {
                     token: tokenObject.token,
                     sub: tokenObject.sub,
                     expires: tokenObject.expiresIn,
+                    message: "Connexion réussie !"
                 });
             }
         }

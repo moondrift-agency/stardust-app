@@ -5,10 +5,12 @@ import {createComment} from "../../redux/actions/contentActions";
 import * as Yup from "yup";
 
 const CreateComment = (props) => {
-    const onSubmit = values => {
+    const onSubmit = (values, {resetForm}) => {
         const message = {
             message: values.message
         }
+
+        resetForm({ values: '' });
 
         props.createComment(message, props.id);
     }

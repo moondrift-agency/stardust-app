@@ -7,11 +7,13 @@ import {createPost} from "../../redux/actions/contentActions";
 import './CreatePost.css';
 
 const CreatePost = (props) => {
-    const onSubmit = values => {
+    const onSubmit = (values, {resetForm}) => {
         const postData = new FormData();
         postData.append('title', values.title);
         postData.append('content', values.content);
         postData.append('file', values.file);
+
+        resetForm({ values: '' })
 
         props.createPost(postData);
     }

@@ -71,6 +71,8 @@ export const login = (userData) => async (dispatch) => {
                 payload: response.data
             });
 
+            toast.success(response.data.message);
+
             return response;
         })
         .catch((error) => {
@@ -78,17 +80,22 @@ export const login = (userData) => async (dispatch) => {
                 type: SET_UNAUTHENTICATED,
             });
 
+            toast.error(error.response.data);
+
             console.error(error);
             return error;
         });
 };
 
 export const logout = () => async (dispatch) => {
+    sessionStorage.removeItem("datas");
     await localStorage.removeItem("userToken");
 
     dispatch({
         type: SET_UNAUTHENTICATED
     });
+
+    toast.success("Vous avez été déconnecté avec succès.");
 }
 
 export const updateUserData = (id , data) => (dispatch) => {

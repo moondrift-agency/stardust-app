@@ -6,17 +6,19 @@ import {connect} from "react-redux";
 import {updateUserData , deleteAccount} from "../../redux/actions/userActions";
 
 const EditProfile = (props) => {
-    const onSubmit = values => {
+    const onSubmit = (values, {resetForm}) => {
         const newUserFormData = new FormData();
             newUserFormData.append("firstname", values.firstname);
             newUserFormData.append("lastname", values.lastname);
             newUserFormData.append("department", values.department);
             newUserFormData.append("job", values.job);
+            newUserFormData.append("file", values.file);
 
         props.updateUserData(props.id, newUserFormData)
             .then((response) => {
-                console.log(response);
+                window.location.reload(false);
             });
+        //resetForm({ values: '' });
     };
 
     const onDelete = () => {
@@ -35,14 +37,34 @@ const EditProfile = (props) => {
                     firstname: props.firstname,
                     lastname: props.lastname,
                     department: props.department,
-                    job: props.job
-
+                    job: props.job,
+                    file: ''
                 }}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}>
                 {(formProps) => (
                     <Form>
                         <div>
+                            <div className="col-md-10 form-group mx-auto">
+                                <label
+                                    htmlFor="file"
+                                    className="col-form-label text-md-right"
+                                >
+                                    Avatar
+                                </label>
+                                <input
+                                    className="form-control form-control-sm upload-form"
+                                    name="file"
+                                    type="file"
+                                    onChange={(event) =>{
+                                        formProps.setFieldValue("file", event.currentTarget.files[0]);
+                                    }}
+                                >
+                                </input>
+                                <ErrorMessage name='avatar'/>
+                            </div>
+
+
                             <div className="col-md-10 form-group mx-auto">
                                 <label
                                     htmlFor="firstname"
