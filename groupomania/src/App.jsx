@@ -35,7 +35,6 @@ const App = (props) => {
 
     return (
         <div className="App">
-            <button onClick={notify}>Make me a toast</button>
             <Toaster />
 
             <BrowserRouter>
