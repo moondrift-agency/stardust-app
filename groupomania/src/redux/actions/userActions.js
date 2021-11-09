@@ -10,6 +10,8 @@ import {
 import axios from "axios";
 import authHeader from "../../services/auth-header";
 
+import { toast } from 'react-toastify';
+
 const API_URL = 'http://localhost:8081/api/users/';
 
 export const signup = (newUserData) => async (dispatch) => {
@@ -28,6 +30,8 @@ export const signup = (newUserData) => async (dispatch) => {
                 }
             });
 
+            toast.success(response.data.message);
+
             return response;
         })
         .catch((error) => {
@@ -42,6 +46,8 @@ export const signup = (newUserData) => async (dispatch) => {
                     messageType: "error"
                 }
             });
+
+            toast.error(error.response.data);
 
             return error.response;
         });

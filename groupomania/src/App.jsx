@@ -1,5 +1,7 @@
 import {BrowserRouter, Switch, Route} from "react-router-dom";
-import {connect, useSelector} from "react-redux";
+import {connect} from "react-redux";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./App.css";
 
 //bootstrap
@@ -24,19 +26,11 @@ import {logout} from "./redux/actions/userActions";
 import Profile from "./components/Profile/Profile";
 
 //notifications
-import toast, { Toaster } from 'react-hot-toast';
+
 
 const App = (props) => {
-    const toastMessage = useSelector((state) => state.toast);
-
-    const notify = () => {
-        toast.success('Here is your toast.');
-    }
-
     return (
         <div className="App">
-            <Toaster />
-
             <BrowserRouter>
                 <Navbar
                     logo={logo}
@@ -49,7 +43,17 @@ const App = (props) => {
                     <PrivateRoute exact path="/user/:id?" component={Profile}/>
                     <PrivateRoute exact path="/users" component={UserList}/>
                 </Switch>
-
+                <ToastContainer
+                    position="bottom-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
                 <Footer/>
             </BrowserRouter>
         </div>

@@ -114,7 +114,6 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.updateAccount = async (req, res) => {
-    console.log(req.body)
     try {
         const userId = token.getUserId(req);
         let newAvatar;
@@ -154,14 +153,12 @@ exports.updateAccount = async (req, res) => {
                 user.job = req.body.job;
             }
             const newUser = await user.save({fields: ["firstname", "lastname", "avatar", "department", "job"]});
-            res.status(200).json({
+            res.status(200).send({
                 user: newUser,
-                message: "Votre profil a bien été modifié avec succès.",
+                message: "Votre profil été modifié avec succès.",
             });
         } else {
-            res
-                .status(400)
-                .json("Vous n'avez pas les droits requis.");
+            res.status(400).send("Vous n'avez pas les droits requis.");
         }
 
     } catch (error) {
@@ -171,22 +168,43 @@ exports.updateAccount = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
     try {
-        const id = token.getUserId(req);
-        const user = await db.User.findOne({where: {id: id}});
+        const reqUserId = token.getUserId(req);
 
-        if (user.avatar !== null) {
-            const filename = user.avatar.split("/upload")[1];
-            fs.unlink(`upload/${filename}`, () => {
-                db.User.destroy({where: {id: id}});
-                res.status(200).json({
-                    message: "Utilisateur supprimé avec succès."
-                });
-            });
+        const user = await db.User.findOne({
+            where: {
+                id: reqUserId,
+                isAdmin: true
+            },
+        });
+
+        if (req.params.id && !user) {
+            return res.status(400).send("Seul un administrateur peut supprimer un autre compte.");
+        } else if ((!req.params.id && user) || ((req.params.id == user.id) && user)) {
+            return res.status(400).send("Un administrateur ne peut pas supprimer son propre compte.");
         } else {
-            db.User.destroy({where: {id: id}});
-            res.status(200).json({
+            let userToDelete;
+
+            if (req.params.id) {
+                userToDelete = await db.User.findOne({where: {id: req.params.id}});
+            } else {
+                userToDelete = await db.User.findOne({
+                    where: {
+                        id: reqUserId
+                    },
+                });
+            }
+
+            if (userToDelete.avatar !== null) {
+                console.log("l'utilisateur a un avatar.");
+
+                const filename = userToDelete.avatar.split("/upload")[1];
+                fs.unlink(`upload/${filename}`);
+            }
+
+            /*db.User.destroy({where: {id: reqUserId}});
+            res.status(200).send({
                 message: "Utilisateur supprimé avec succès."
-            });
+            });*/
         }
     } catch (error) {
         return res.status(500).send("Erreur serveur");
