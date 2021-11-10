@@ -25,9 +25,6 @@ import {logout} from "./redux/actions/userActions";
 
 import Profile from "./components/Profile/Profile";
 
-//notifications
-
-
 const App = (props) => {
     return (
         <div className="App">
@@ -63,12 +60,5 @@ const App = (props) => {
 const mapActionsToProps = {
     logout
 };
-
-function mapStateToProps(state) {
-    const {toastMessage} = state.toast
-    return {
-        toastMessage,
-    };
-}
 
 export default connect(null, mapActionsToProps)(App);

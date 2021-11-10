@@ -9,6 +9,6 @@ router.post("/login", userController.login);
 router.get("/users", tokenChecker, userController.getAllUsers);
 router.put("/accounts/:id?", tokenChecker, multer, userController.updateAccount);
 router.get("/accounts/:id?", tokenChecker, userController.getUser);
-router.delete("/accounts/:id?", tokenChecker, userController.deleteAccount);
+router.delete("/accounts/:id", tokenChecker, userController.deleteAccount);
 
 module.exports = router;

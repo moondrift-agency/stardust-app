@@ -2,7 +2,8 @@ import {
     ADD_POST,
     REMOVE_POST,
     SET_POSTS,
-    ADD_COMMENT
+    ADD_COMMENT,
+    REMOVE_COMMENT
 } from "../types";
 
 const initialState = {};
@@ -48,6 +49,10 @@ export default function (state = initialState, action) {
                         //[action.payload.newComment, ...state.posts[index_comment].Comments]
                     }
                 }*/
+            }
+        case REMOVE_COMMENT:
+            return {
+
             }
         default:
             return state;

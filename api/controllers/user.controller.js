@@ -116,52 +116,78 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateAccount = async (req, res) => {
     try {
-        const userId = token.getUserId(req);
-        let newAvatar;
-        let user = await db.User.findOne({where: {id: userId}});
+        const senderUserId = token.getUserId(req);
 
-        if (userId === user.id) {
-            if (req.file && user.avatar) {
-                newAvatar = `${req.protocol}://${req.get("host")}/upload/${
-                    req.file.filename
-                }`;
-                const filename = user.avatar.split("/upload")[1];
-                fs.unlink(`upload/${filename}`, (err) => {
-                    //s'il y avait déjà un avatar on le supprime
-                    if (err) console.log(err);
-                    else {
-                        console.log(`Deleted file: upload/${filename}`);
-                    }
-                });
-            } else if (req.file) {
-                newAvatar = `${req.protocol}://${req.get("host")}/upload/${
-                    req.file.filename
-                }`;
-            }
-            if (newAvatar) {
-                user.avatar = newAvatar;
-            }
-            if (req.body.firstname) {
-                user.firstname = req.body.firstname;
-            }
-            if (req.body.lastname) {
-                user.lastname = req.body.lastname;
-            }
-            if (req.body.department) {
-                user.department = req.body.department;
-            }
-            if (req.body.job) {
-                user.job = req.body.job;
-            }
-            const newUser = await user.save({fields: ["firstname", "lastname", "avatar", "department", "job"]});
-            res.status(200).send({
-                user: newUser,
-                message: "Votre profil été modifié avec succès.",
+        const user = await db.User.findOne({
+            where: {
+                id: senderUserId,
+                isAdmin: true
+            },
+        });
+
+        console.log(req.body)
+
+        let userToModify;
+
+        if ((req.params.id && (req.params.id != senderUserId)) && !user) {
+            console.log("test 1")
+            return res.status(400).send("Seul un administrateur peut modifier un autre compte.");
+        } else if(user && (req.params.id != senderUserId)) {
+            console.log("test 2")
+            userToModify = await db.User.findOne({
+                where: {
+                    id: req.params.id
+                },
             });
         } else {
-            res.status(400).send("Vous n'avez pas les droits requis.");
+            console.log("test 3")
+            userToModify = await db.User.findOne({
+                where: {
+                    id: senderUserId
+                },
+            });
         }
 
+        if (req.file && userToModify.avatar) {
+            newAvatar = `${req.protocol}://${req.get("host")}/upload/${
+                req.file.filename
+            }`;
+            const filename = userToModify.avatar.split("/upload")[1];
+            fs.unlink(`upload/${filename}`, (err) => {
+                //s'il y avait déjà un avatar on le supprime
+                if (err) console.log(err);
+                else {
+                    console.log(`Deleted file: upload/${filename}`);
+                }
+            });
+        } else if (req.file) {
+            newAvatar = `${req.protocol}://${req.get("host")}/upload/${
+                req.file.filename
+            }`;
+        }
+
+        console.log(newAvatar)
+
+        if (newAvatar) {
+            userToModify.avatar = newAvatar;
+        }
+        if (req.body.firstname) {
+            userToModify.firstname = req.body.firstname;
+        }
+        if (req.body.lastname) {
+            userToModify.lastname = req.body.lastname;
+        }
+        if (req.body.department) {
+            userToModify.department = req.body.department;
+        }
+        if (req.body.job) {
+            userToModify.job = req.body.job;
+        }
+        const newUser = await userToModify.save({fields: ["firstname", "lastname", "avatar", "department", "job"]});
+        res.status(200).send({
+            user: newUser,
+            message: "Votre profil été modifié avec succès.",
+        });
     } catch (error) {
         return res.status(500).send("Erreur serveur");
     }
@@ -169,43 +195,41 @@ exports.updateAccount = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
     try {
-        const reqUserId = token.getUserId(req);
+        const senderUserId = token.getUserId(req);
 
         const user = await db.User.findOne({
             where: {
-                id: reqUserId,
+                id: senderUserId,
                 isAdmin: true
             },
         });
 
-        if (req.params.id && !user) {
+        if ((parseInt(req.params.id) !== senderUserId) && !user) {
             return res.status(400).send("Seul un administrateur peut supprimer un autre compte.");
-        } else if ((!req.params.id && user) || ((req.params.id == user.id) && user)) {
+        } else if (user && (parseInt(req.params.id) === user.id)) {
             return res.status(400).send("Un administrateur ne peut pas supprimer son propre compte.");
         } else {
             let userToDelete;
 
-            if (req.params.id) {
-                userToDelete = await db.User.findOne({where: {id: req.params.id}});
-            } else {
-                userToDelete = await db.User.findOne({
-                    where: {
-                        id: reqUserId
-                    },
-                });
-            }
+            userToDelete = await db.User.findOne({
+                where: {
+                    id: parseInt(req.params.id)
+                }
+            });
+
+            console.log(userToDelete)
 
             if (userToDelete.avatar !== null) {
-                console.log("l'utilisateur a un avatar.");
-
                 const filename = userToDelete.avatar.split("/upload")[1];
-                fs.unlink(`upload/${filename}`);
+                fs.unlink(`upload/${filename}`, () => {
+                    // sil' y a une photo on la supprime et on supprime le compte
+                    db.User.destroy({ where: { id: userToDelete.id } });
+                    res.status(200).send({ message: "Compte supprimé avec succès." });
+                });
+            } else {
+                db.User.destroy({ where: { id: userToDelete.id } }); // on supprime le compte
+                res.status(200).send({ message: "Compte supprimé avec succès." });
             }
-
-            /*db.User.destroy({where: {id: reqUserId}});
-            res.status(200).send({
-                message: "Utilisateur supprimé avec succès."
-            });*/
         }
     } catch (error) {
         return res.status(500).send("Erreur serveur");

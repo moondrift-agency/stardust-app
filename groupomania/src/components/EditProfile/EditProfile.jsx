@@ -2,8 +2,10 @@ import React, {useEffect} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {connect} from "react-redux";
+import { Redirect } from 'react-router';
 
 import {updateUserData , deleteAccount} from "../../redux/actions/userActions";
+import {toast} from "react-toastify";
 
 const EditProfile = (props) => {
     const onSubmit = (values) => {
@@ -17,8 +19,9 @@ const EditProfile = (props) => {
         props.updateUserData(props.id, newUserFormData)
             .then((response) => {
                 window.location.reload(false);
+
+                toast.success(response.data.message);
             });
-        //resetForm({ values: '' });
     };
 
     const onDelete = () => {
@@ -38,7 +41,7 @@ const EditProfile = (props) => {
                     lastname: props.lastname,
                     department: props.department,
                     job: props.job,
-                    file: ''
+                    file: null
                 }}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}>
@@ -128,13 +131,13 @@ const EditProfile = (props) => {
                             <div className="form-group d-flex justify-content-center mt-4 mb-4">
                                 <button className="btn-groupomania">Enregistrer</button>
                             </div>
-                            <div className="form-group d-flex justify-content-center mt-4 mb-4">
-                                <button className="btn-groupomania" onClick={onDelete}>Supprimer le compte</button>
-                            </div>
                         </div>
                     </Form>
                 )}
             </Formik>
+            <div className="form-group d-flex justify-content-center mt-4 mb-4">
+                <button className="btn-groupomania" onClick={onDelete}>Supprimer le compte</button>
+            </div>
         </div>
     );
 };

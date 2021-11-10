@@ -121,8 +121,6 @@ export const updateUserData = (id, data) => (dispatch) => {
                 payload: JSON.parse(localStorage.getItem("userToken"))
             })
 
-            toast.success(response.data.message);
-
             return response.data.message;
         })
         .catch((error) => {
@@ -134,7 +132,7 @@ export const updateUserData = (id, data) => (dispatch) => {
 
 export const deleteAccount = (id) => async (dispatch) => {
     await axios
-        .delete(API_URL + "/accounts/", {
+        .delete(API_URL + "accounts/" + id, {
             headers: {
                 'Authorization': authHeader()
             }
