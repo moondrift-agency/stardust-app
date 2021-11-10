@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import authHeader from "../../services/auth-header";
 
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 
 const API_URL = 'http://localhost:8081/api/users/';
 
@@ -24,7 +24,7 @@ export const signup = (newUserData) => async (dispatch) => {
 
             dispatch({
                 type: SET_TOAST,
-                payload:  {
+                payload: {
                     message: response.data,
                     messageType: "success"
                 }
@@ -98,7 +98,7 @@ export const logout = () => async (dispatch) => {
     toast.success("Vous avez été déconnecté avec succès.");
 }
 
-export const updateUserData = (id , data) => (dispatch) => {
+export const updateUserData = (id, data) => (dispatch) => {
     return axios
         .put(API_URL + 'accounts/' + id, data, {
             headers: {
@@ -121,11 +121,14 @@ export const updateUserData = (id , data) => (dispatch) => {
                 payload: JSON.parse(localStorage.getItem("userToken"))
             })
 
-            return response.data.user;
+            toast.success(response.data.message);
+
+            return response.data.message;
         })
         .catch((error) => {
-            console.error(error);
-            return error;
+            toast.error(error.response.data);
+
+            return error.response.data;
         })
 }
 
@@ -141,15 +144,18 @@ export const deleteAccount = (id) => async (dispatch) => {
                 type: DELETE_USER,
             })
 
+            toast.success(response.data.message);
+
             window.location.reload(false);
 
             sessionStorage.removeItem("datas");
             localStorage.removeItem("userToken");
 
-            return response;
+            return response.data.message;
         })
         .catch((error) => {
-            console.error(error);
-            return error;
+            toast.error(error.response.data);
+
+            return error.response.data;
         })
 }

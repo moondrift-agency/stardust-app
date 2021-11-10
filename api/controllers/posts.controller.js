@@ -185,7 +185,8 @@ exports.deleteComment = async (req, res) => {
         const comment = await db.Comment.findOne({where: {id: req.params.id}});
 
         if (userId === comment.UserId || checkAdmin.admin === true) {
-            db.Comment.destroy({where: {id: req.params.id}}, {truncate: true});
+            //TODO: retirer commentaire
+            //db.Comment.destroy({where: {id: req.params.id}}, {truncate: true});
             res.status(200).send({message: "Commentaire supprimé avec succès."});
         } else {
             res.status(400).send("Vous n'avez pas les droits requis.");

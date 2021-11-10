@@ -6,6 +6,7 @@ import {
 } from "../types";
 import axios from "axios";
 import authHeader from "../../services/auth-header";
+import {toast} from "react-toastify";
 
 const API_URL = 'http://localhost:8081/api/posts/';
 
@@ -16,12 +17,17 @@ export const getPosts = () => async (dispatch) => {
                 'Authorization': authHeader()
             }
         })
-        .then((res) => {
-            dispatch({ type: SET_POSTS, payload: res.data });
+        .then((response) => {
+            dispatch({
+                type: SET_POSTS,
+                payload: response.data
+            });
+
+            return response.data.message;
         })
-        .catch((err) => {
-            console.log(err);
-        });
+        .catch((error) => {
+            return error.response.data;
+        })
 };
 
 export const createPost = (postData) => async (dispatch) => {
@@ -37,10 +43,16 @@ export const createPost = (postData) => async (dispatch) => {
                 type: ADD_POST,
                 payload: response.data.post
             });
+
+            toast.success(response.data.message);
+
+            return response.data.message;
         })
-        .catch((err) => {
-            console.log(err);
-        });
+        .catch((error) => {
+            toast.error(error.response.data);
+
+            return error.response.data;
+        })
 };
 
 export const deletePost = (id) => async (dispatch) => {
@@ -51,15 +63,21 @@ export const deletePost = (id) => async (dispatch) => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        .then(() => {
+        .then((response) => {
             dispatch({
                 type: REMOVE_POST,
                 payload: id
             });
+
+            toast.success(response.data.message);
+
+            return response.data.message;
         })
-        .catch((err) => {
-            console.log(err);
-        });
+        .catch((error) => {
+            toast.error(error.response.data);
+
+            return error.response.data;
+        })
 }
 
 export const createComment = (message, id) => async (dispatch) => {
@@ -74,18 +92,34 @@ export const createComment = (message, id) => async (dispatch) => {
                 type: ADD_COMMENT,
                 payload: response.data
             })
+
+            toast.success(response.data.message);
+
+            return response.data.message;
+        })
+        .catch((error) => {
+            toast.error(error.response.data);
+
+            return error.response.data;
         })
 }
 
 export const deleteComment = (id) => async (dispatch) => {
     await axios
-        .delete(API_URL + '/comments' + id, {
+        .delete(API_URL + '/comments/' + id, {
             headers: {
                 'Authorization': authHeader()
             }
         })
         .then((response) => {
+            toast.success(response.data.message);
 
+            return response.data.message
+        })
+        .catch((error) => {
+            toast.error(error.response.data);
+
+            return error.response.data;
         })
 }
 
@@ -97,9 +131,13 @@ export const likePost = async (id) => {
             }
         })
         .then((response) => {
-            return response.data
+            toast.success(response.data.message);
+
+            return response.data.message
         })
-        .catch((err) => {
-            console.log(err);
+        .catch((error) => {
+            toast.error(error.response.data);
+
+            return error.response.data;
         })
 }
