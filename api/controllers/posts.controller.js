@@ -67,7 +67,7 @@ exports.createPost = async (req, res) => {
                 UserId: user.id,
             });
 
-            const returnPost = await db.Post.findOne({
+            const newPost = await db.Post.findOne({
                 where: {id: post.id},
                 include: [
                     {
@@ -92,12 +92,14 @@ exports.createPost = async (req, res) => {
                 ],
             });
 
-            res.status(201).json({post: returnPost, message: "Votre post a bien été créé !"});
+            res.status(201).send({
+                post: newPost,
+                message: "Votre post a bien été créé !"
+            });
         } else {
             res.status(400).send("Erreur");
         }
     } catch (error) {
-        console.log(error);
         return res.status(500).send("Erreur serveur");
     }
 };
@@ -112,11 +114,15 @@ exports.deletePost = async (req, res) => {
                 const filename = post.attachment.split("/upload")[1];
                 fs.unlink(`upload/${filename}`, () => {
                     db.Post.destroy({where: {id: post.id}});
-                    res.status(200).send({message: "Post supprimé avec succès !"});
+                    res.status(200).send({
+                        message: "Post supprimé avec succès !"
+                    });
                 });
             } else {
                 db.Post.destroy({where: {id: post.id}}, {truncate: true});
-                res.status(200).send({message: "Post supprimé avec succès !"});
+                res.status(200).send({
+                    message: "Post supprimé avec succès !"
+                });
             }
         } else {
             res.status(400).send("Vous n'avez pas les droits requis.");
@@ -131,20 +137,27 @@ exports.likePost = async (req, res, next) => {
         const userId = token.getUserId(req);
         const postId = req.params.id;
         const user = await db.Like.findOne({
-            where: {UserId: userId, PostId: postId},
+            where: {
+                UserId: userId,
+                PostId: postId
+            },
         });
         if (user) {
             await db.Like.destroy(
                 {where: {UserId: userId, PostId: postId}},
                 {truncate: true, restartIdentity: true}
             );
-            res.status(200).send({message: "Vous n'aimez plus ce post."});
+            res.status(200).send({
+                message: "Vous n'aimez plus ce post."
+            });
         } else {
             await db.Like.create({
                 UserId: userId,
                 PostId: postId,
             });
-            res.status(201).send({message: "Vous aimez ce post."});
+            res.status(201).send({
+                message: "Vous aimez ce post."
+            });
         }
     } catch (error) {
         return res.status(500).send("Erreur serveur");
@@ -170,9 +183,12 @@ exports.addComment = async (req, res) => {
                     attributes: ["firstname", "lastname", "avatar", "id"],
                 },
             ]
-        })
+        });
 
-        res.status(201).send({newComment, message: "Votre commentaire a été publié avec succès !"});
+        res.status(201).send({
+            comment: newComment,
+            message: "Votre commentaire a été publié avec succès !"
+        });
     } catch (error) {
         return res.status(500).send("Erreur serveur");
     }
@@ -187,7 +203,9 @@ exports.deleteComment = async (req, res) => {
         if (userId === comment.UserId || checkAdmin.admin === true) {
             //TODO: retirer commentaire
             //db.Comment.destroy({where: {id: req.params.id}}, {truncate: true});
-            res.status(200).send({message: "Commentaire supprimé avec succès."});
+            res.status(200).send({
+                message: "Commentaire supprimé avec succès."
+            });
         } else {
             res.status(400).send("Vous n'avez pas les droits requis.");
         }

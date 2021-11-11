@@ -3,7 +3,8 @@ import {
     REMOVE_POST,
     SET_POSTS,
     ADD_COMMENT,
-    REMOVE_COMMENT
+    REMOVE_COMMENT,
+    UPDATE_POST_LIKES
 } from "../types";
 
 const initialState = {};
@@ -53,6 +54,11 @@ export default function (state = initialState, action) {
         case REMOVE_COMMENT:
             return {
 
+            }
+        case UPDATE_POST_LIKES:
+            return {
+                ...state,
+                posts: copyList
             }
         default:
             return state;

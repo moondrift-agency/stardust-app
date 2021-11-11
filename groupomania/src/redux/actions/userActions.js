@@ -11,6 +11,7 @@ import axios from "axios";
 import authHeader from "../../services/auth-header";
 
 import {toast} from 'react-toastify';
+import history from "../../helpers/history";
 
 const API_URL = 'http://localhost:8081/api/users/';
 
@@ -31,6 +32,8 @@ export const signup = (newUserData) => async (dispatch) => {
             });
 
             toast.success(response.data.message);
+
+            history.push('/login');
 
             return response;
         })
@@ -111,15 +114,17 @@ export const updateUserData = (id, data) => (dispatch) => {
                 type: SET_AUTHENTICATED,
             });
 
-            dispatch({
+            /*dispatch({
                 type: UPDATE_USERDATA,
                 payload: response.data.user
-            });
+            });*/
 
             dispatch({
                 type: UPDATE_USERTOKEN,
                 payload: JSON.parse(localStorage.getItem("userToken"))
             })
+
+            toast.success(response.data.message);
 
             return response.data.message;
         })
@@ -144,7 +149,7 @@ export const deleteAccount = (id) => async (dispatch) => {
 
             toast.success(response.data.message);
 
-            window.location.reload(false);
+            history.push('/login');
 
             sessionStorage.removeItem("datas");
             localStorage.removeItem("userToken");

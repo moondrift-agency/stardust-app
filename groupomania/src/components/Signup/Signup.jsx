@@ -16,13 +16,7 @@ const Signup = (props) => {
             "password": values.password,
         };
 
-        props.signup(newUserData)
-            .then((response) => {
-                //on redirige sur la page de login
-            })
-            .catch((error) => {
-
-            });
+        props.signup(newUserData);
     };
 
     const validationSchema = Yup.object({

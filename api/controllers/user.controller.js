@@ -116,27 +116,25 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateAccount = async (req, res) => {
     try {
+        let newAvatar;
         const senderUserId = token.getUserId(req);
 
         const user = await db.User.findOne({
             where: {
-                id: senderUserId,
-                isAdmin: true
+                id: senderUserId
             },
         });
 
-        console.log(req.body)
-
         let userToModify;
 
-        if ((req.params.id && (req.params.id != senderUserId)) && !user) {
+        if ((parseInt(req.params.id) !== senderUserId) && user.isAdmin === false) {
             console.log("test 1")
             return res.status(400).send("Seul un administrateur peut modifier un autre compte.");
-        } else if(user && (req.params.id != senderUserId)) {
+        } else if(user.isAdmin === true && (parseInt(req.params.id) !== senderUserId)) {
             console.log("test 2")
             userToModify = await db.User.findOne({
                 where: {
-                    id: req.params.id
+                    id: parseInt(req.params.id)
                 },
             });
         } else {
@@ -199,14 +197,13 @@ exports.deleteAccount = async (req, res) => {
 
         const user = await db.User.findOne({
             where: {
-                id: senderUserId,
-                isAdmin: true
+                id: senderUserId
             },
         });
 
-        if ((parseInt(req.params.id) !== senderUserId) && !user) {
+        if ((parseInt(req.params.id) !== senderUserId) && user.isAdmin === false) {
             return res.status(400).send("Seul un administrateur peut supprimer un autre compte.");
-        } else if (user && (parseInt(req.params.id) === user.id)) {
+        } else if (user.isAdmin === true && (parseInt(req.params.id) === user.id)) {
             return res.status(400).send("Un administrateur ne peut pas supprimer son propre compte.");
         } else {
             let userToDelete;
@@ -231,6 +228,7 @@ exports.deleteAccount = async (req, res) => {
                 res.status(200).send({ message: "Compte supprimé avec succès." });
             }
         }
+
     } catch (error) {
         return res.status(500).send("Erreur serveur");
     }

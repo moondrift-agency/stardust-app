@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import Modal from 'react-modal';
 import {connect, useSelector} from "react-redux";
 import {useParams} from "react-router";
 import "./Profile.css"

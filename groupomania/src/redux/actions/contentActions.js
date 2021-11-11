@@ -2,7 +2,8 @@ import {
     SET_POSTS,
     ADD_POST,
     REMOVE_POST,
-    ADD_COMMENT
+    ADD_COMMENT,
+    UPDATE_POST_LIKES
 } from "../types";
 import axios from "axios";
 import authHeader from "../../services/auth-header";
@@ -91,7 +92,7 @@ export const createComment = (message, id) => async (dispatch) => {
             dispatch({
                 type: ADD_COMMENT,
                 payload: response.data
-            })
+            });
 
             toast.success(response.data.message);
 
@@ -123,7 +124,7 @@ export const deleteComment = (id) => async (dispatch) => {
         })
 }
 
-export const likePost = async (id) => {
+export const likePost = async (id) => async (dispatch) => {
     await axios
         .post(API_URL + id + '/like', null, {
             headers: {
@@ -131,6 +132,11 @@ export const likePost = async (id) => {
             }
         })
         .then((response) => {
+            dispatch({
+                type: UPDATE_POST_LIKES,
+                payload: ""
+            });
+
             toast.success(response.data.message);
 
             return response.data.message
