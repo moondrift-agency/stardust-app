@@ -91,7 +91,7 @@ export const login = (userData) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-    sessionStorage.removeItem("datas");
+    await sessionStorage.removeItem("datas");
     await localStorage.removeItem("userToken");
 
     dispatch({
@@ -101,7 +101,7 @@ export const logout = () => async (dispatch) => {
     toast.success("Vous avez été déconnecté avec succès.");
 }
 
-export const updateUserData = (id, data) => (dispatch) => {
+export const updateUserData = (id, data, isCurrentUser) => (dispatch) => {
     return axios
         .put(API_URL + 'accounts/' + id, data, {
             headers: {
@@ -114,15 +114,19 @@ export const updateUserData = (id, data) => (dispatch) => {
                 type: SET_AUTHENTICATED,
             });
 
-            /*dispatch({
-                type: UPDATE_USERDATA,
-                payload: response.data.user
-            });*/
+            if(isCurrentUser){
+                dispatch({
+                    type: UPDATE_USERDATA,
+                    payload: response.data.user
+                });
+            }
 
             dispatch({
                 type: UPDATE_USERTOKEN,
                 payload: JSON.parse(localStorage.getItem("userToken"))
             })
+
+            history.push('/');
 
             toast.success(response.data.message);
 
@@ -135,7 +139,7 @@ export const updateUserData = (id, data) => (dispatch) => {
         })
 }
 
-export const deleteAccount = (id) => async (dispatch) => {
+export const deleteAccount = (id, isCurrentUser) => async (dispatch) => {
     await axios
         .delete(API_URL + "accounts/" + id, {
             headers: {
@@ -149,14 +153,20 @@ export const deleteAccount = (id) => async (dispatch) => {
 
             toast.success(response.data.message);
 
-            history.push('/login');
+            if(isCurrentUser){
+                history.push('/login');
 
-            sessionStorage.removeItem("datas");
-            localStorage.removeItem("userToken");
+                sessionStorage.removeItem("datas");
+                localStorage.removeItem("userToken");
+            } else {
+                history.push('/');
+            }
 
             return response.data.message;
         })
         .catch((error) => {
+            console.log(error.response)
+
             toast.error(error.response.data);
 
             return error.response.data;

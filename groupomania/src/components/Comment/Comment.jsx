@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import Modal from 'react-modal';
 import {deleteComment} from "../../redux/actions/contentActions";
 import {connect, useSelector} from "react-redux";
+
+import "./Comment.css";
 
 const Comment = (props) => {
     const currentUser = useSelector((state) => state.user.data);
@@ -16,20 +17,19 @@ const Comment = (props) => {
         if(currentUser.id === props.author.id ){
             setOwned(true);
         }
-
     }, []);
 
     return (
         <div className="d-flex flex-column">
             <div className="d-flex flex-row">
                 <div className="post-comment mt-2 mb-2">
-                    <div className="post-comment-author">
+                    <div className="post-comment-author d-flex flex-row">
                         {props.author.firstname} {props.author.lastname}
                         {(Owned || currentUser.isAdmin) ? (
                             <div>
                                 <div className="dropdown">
                                     <button className="post-btn post-ellipsis-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i className="fas fa-ellipsis-h"></i>
+                                        <i className="fas fa-ellipsis-h white-ellipsis"></i>
                                     </button>
                                     <ul className="dropdown-menu dropdown-menu-right">
                                         <li className="dropdown-item post-delete-button text-muted" onClick={onDeleteClick} type="button" href="#"><i className="fas fa-trash"></i> Supprimer</li>

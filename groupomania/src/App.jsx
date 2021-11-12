@@ -16,6 +16,8 @@ import Footer from "./components/Footer/Footer";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import Home from "./components/Home/Home";
+import Profile from "./components/Profile/Profile";
+import Modal from "./components/Modal/Modal";
 //import UserList from "./components/UserList/UserList";
 
 //logo
@@ -23,8 +25,6 @@ import logo from './assets/logos/logo-groupomania.png';
 
 //redux
 import {logout} from "./redux/actions/userActions";
-
-import Profile from "./components/Profile/Profile";
 
 const App = (props) => {
     return (
@@ -51,6 +51,7 @@ const App = (props) => {
                     draggable
                     pauseOnHover
                 />
+                <Modal/>
                 <Footer/>
             </Router>
         </div>

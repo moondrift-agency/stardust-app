@@ -52,9 +52,12 @@ export default function (state = initialState, action) {
                 }*/
             }
         case REMOVE_COMMENT:
+            copyList = state.posts.Comments.filter(comment => comment.id !== action.payload);
+            console.log(copyList)
             return {
-
-            }
+                ...state,
+                posts: copyList
+            };
         case UPDATE_POST_LIKES:
             return {
                 ...state,

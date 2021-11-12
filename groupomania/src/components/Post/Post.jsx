@@ -1,4 +1,3 @@
-import Modal from 'react-modal';
 import {useEffect, useState} from "react";
 import {connect, useSelector} from "react-redux";
 import defaultAvatar from "../../assets/default-avatar.png";
@@ -148,6 +147,7 @@ function mapStateToProps(state) {
 
 const mapActionsToProps = {
     deletePost,
+    likePost
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(Post);

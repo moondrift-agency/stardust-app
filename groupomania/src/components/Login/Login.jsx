@@ -29,7 +29,9 @@ const Login = (props) => {
     };
 
     const validationSchema = Yup.object({
-        email: Yup.string().required('Ce champ ne peut être vide !'),
+        email: Yup.string()
+            .required("Ce champ ne peut être vide !")
+            .email("Votre adresse mail semble invalide !"),
         password: Yup.string().required('Ce champ ne peut être vide !')
     })
 

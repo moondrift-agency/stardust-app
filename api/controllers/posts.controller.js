@@ -186,7 +186,7 @@ exports.addComment = async (req, res) => {
         });
 
         res.status(201).send({
-            comment: newComment,
+            newComment,
             message: "Votre commentaire a été publié avec succès !"
         });
     } catch (error) {
@@ -200,9 +200,9 @@ exports.deleteComment = async (req, res) => {
         const checkAdmin = await db.User.findOne({where: {id: userId}});
         const comment = await db.Comment.findOne({where: {id: req.params.id}});
 
-        if (userId === comment.UserId || checkAdmin.admin === true) {
+        if (userId === comment.UserId || checkAdmin.isAdmin === true) {
             //TODO: retirer commentaire
-            //db.Comment.destroy({where: {id: req.params.id}}, {truncate: true});
+            db.Comment.destroy({where: {id: req.params.id}}, {truncate: true});
             res.status(200).send({
                 message: "Commentaire supprimé avec succès."
             });

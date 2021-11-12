@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Modal from 'react-modal';
 import {connect, useSelector} from "react-redux";
 import {useParams} from "react-router";
 import "./Profile.css"
@@ -24,15 +23,12 @@ const Profile = (props) => {
 
     useEffect(() => {
         if (id) {
-            console.log(currentUser.id)
             if (id != currentUser.id) {
-                console.log("t'es pas sur ton profile")
                 getUser(id).then((response) => {
                     setIsOwner(false);
                     setUser(response);
                 });
             } else if (id == currentUser.id) {
-                console.log("t'es sur ton profile")
                 setIsOwner(true);
                 setUser(currentUser);
             }

@@ -184,7 +184,7 @@ exports.updateAccount = async (req, res) => {
         const newUser = await userToModify.save({fields: ["firstname", "lastname", "avatar", "department", "job"]});
         res.status(200).send({
             user: newUser,
-            message: "Votre profil été modifié avec succès.",
+            message: "Le profil a été modifié avec succès.",
         });
     } catch (error) {
         return res.status(500).send("Erreur serveur");

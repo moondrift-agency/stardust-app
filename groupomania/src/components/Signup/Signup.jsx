@@ -20,10 +20,21 @@ const Signup = (props) => {
     };
 
     const validationSchema = Yup.object({
-        firstname: Yup.string().required('Ce champ ne peut être vide !'),
-        lastname: Yup.string().required('Ce champ ne peut être vide !'),
-        email: Yup.string().required('Ce champ ne peut être vide !'),
-        password: Yup.string().required('Ce champ ne peut être vide !')
+        firstname: Yup.string()
+            .required("Ce champ ne peut être vide !")
+            .min(2, "Ton prénom doit avoir plus d'un caractère !")
+            .max(50, ""),
+        lastname: Yup.string()
+            .required("Ce champ ne peut être vide !")
+            .min(2, "Ton nom doit avoir plus d'un caractère !")
+            .max(50, ""),
+        email: Yup.string()
+            .required("Ce champ ne peut être vide !")
+            .email("Votre adresse mail semble invalide !"),
+        password: Yup.string()
+            .required("Ce champ ne peut être vide !")
+            .min(10, "Ton mot-de-passe doit avoir au moins 10 caractères !")
+            .max(20, "Ton mot-de-passe ne peut avoir plus de 20 caractères !")
     })
 
     return (

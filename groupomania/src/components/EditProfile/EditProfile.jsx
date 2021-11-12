@@ -1,13 +1,22 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
-import {connect} from "react-redux";
-import { Redirect } from 'react-router';
+import {connect, useSelector} from "react-redux";
 
 import {updateUserData , deleteAccount} from "../../redux/actions/userActions";
 import {toast} from "react-toastify";
 
 const EditProfile = (props) => {
+    const [modalOpen, setModalOpen] = useState(false);
+    const currentUser = useSelector((state) => state.user.data);
+
+    let isCurrentUser = false;
+
+    if(props.id == currentUser.id)     {
+        isCurrentUser = true;
+    }
+
     const onSubmit = (values) => {
         const newUserFormData = new FormData();
             newUserFormData.append("firstname", values.firstname);
@@ -16,21 +25,18 @@ const EditProfile = (props) => {
             newUserFormData.append("job", values.job);
             newUserFormData.append("file", values.file);
 
-        props.updateUserData(props.id, newUserFormData)
-            .then((response) => {
-                window.location.reload(false);
-
-                toast.success(response.data.message);
-            });
+        props.updateUserData(props.id, newUserFormData, isCurrentUser);
     };
 
     const onDelete = () => {
-        props.deleteAccount(props.id);
+        props.deleteAccount(props.id, isCurrentUser);
     }
 
     const validationSchema = Yup.object({
-        firstname: Yup.string().required('Ce champ ne peut être vide !'),
-        lastname: Yup.string().required('Ce champ ne peut être vide !'),
+        firstname: Yup.string()
+            .required("Ce champ ne peut être vide !"),
+        lastname: Yup.string()
+            .required("Ce champ ne peut être vide !")
     })
 
     return (
@@ -41,7 +47,7 @@ const EditProfile = (props) => {
                     lastname: props.lastname,
                     department: props.department,
                     job: props.job,
-                    file: null
+                    file: ''
                 }}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}>
@@ -136,15 +142,29 @@ const EditProfile = (props) => {
                 )}
             </Formik>
             <div className="form-group d-flex justify-content-center mt-4 mb-4">
-                <button className="btn-groupomania" onClick={onDelete}>Supprimer le compte</button>
+                <button
+                    className="btn-groupomania"
+                    onClick={onDelete}
+                >
+                    Supprimer le compte
+                </button>
             </div>
         </div>
     );
 };
+
+//onClick={onDelete}
 
 const mapActionsToProps = {
     updateUserData,
     deleteAccount
 };
 
-export default connect(null, mapActionsToProps)(EditProfile);
+function mapStateToProps(state) {
+    const {user} = state.user.data
+    return {
+        user,
+    };
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(EditProfile);
