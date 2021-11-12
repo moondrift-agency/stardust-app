@@ -29,7 +29,10 @@ const EditProfile = (props) => {
     };
 
     const onDelete = () => {
-        props.deleteAccount(props.id, isCurrentUser);
+        let confirmation = window.confirm("Voulez-vous vraiment supprimer le compte ?");
+        if(confirmation){
+            props.deleteAccount(props.id, isCurrentUser);
+        }
     }
 
     const validationSchema = Yup.object({

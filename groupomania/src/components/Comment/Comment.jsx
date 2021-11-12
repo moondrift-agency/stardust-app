@@ -10,7 +10,10 @@ const Comment = (props) => {
     const [Owned, setOwned] = useState(false);
 
     const onDeleteClick = () => {
-        props.deleteComment(props.id);
+        let confirmation = window.confirm("Voulez-vous vraiment supprimer le commentaire ?");
+        if(confirmation) {
+            props.deleteComment(props.id);
+        }
     }
 
     useEffect(() => {

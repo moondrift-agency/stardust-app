@@ -13,35 +13,35 @@ const Post = (props) => {
     //booleans
     const [displayComments, setDisplayComments] = useState(false);
 
-    const userProfile = "/user/"+props.User.id;
+    const userProfile = "/user/" + props.User.id;
     const [Owned, setOwned] = useState(false);
     const [userAvatar, setUserAvatar] = useState();
     const [postDate, setDate] = useState();
     const [isLiked, updateLike] = useState(false);
 
     function hasValue(obj, key, value) {
-        return obj.hasOwnProperty(key) && obj[key] === value ;
+        return obj.hasOwnProperty(key) && obj[key] === value;
     }
 
     useEffect(() => {
-        if(currentUser.id === props.User.id ){
+        if (currentUser.id === props.User.id) {
             setOwned(true);
         }
 
         //on met des avatar par défaut si l'utilisateur n'en a pas
-        if(props.User.avatar === null){
+        if (props.User.avatar === null) {
             setUserAvatar(defaultAvatar);
-        } else if(props.User.avatar !== null) {
+        } else if (props.User.avatar !== null) {
             setUserAvatar(props.User.avatar);
         }
 
         //on affiche que le post est liké pas le currentUser si c'est le cas
         props.Likes.forEach(element => {
-            if(hasValue(element, "UserId", currentUser.id)){
+            if (hasValue(element, "UserId", currentUser.id)) {
                 updateLike(true);
             }
         });
-        
+
         setDate(
             "Le " +
             new Date(props.createdAt).getDay() + "/" +
@@ -53,7 +53,7 @@ const Post = (props) => {
     }, []);
 
     const handleLike = () => {
-        if(!isLiked){
+        if (!isLiked) {
             props.Likes.push(currentUser.id);
             likePost(props.id);
             updateLike(true);
@@ -65,35 +65,42 @@ const Post = (props) => {
     }
 
     const onDeleteClick = () => {
-        props.deletePost(props.id);
+        let confirmation = window.confirm("Voulez-vous vraiment supprimer le post ?");
+        if (confirmation) {
+            props.deletePost(props.id);
+        }
     }
 
     const handleDisplayComment = event => {
-        if(displayComments === true) {
+        if (displayComments === true) {
             setDisplayComments(false);
         } else {
             setDisplayComments(true);
         }
     }
 
-    return(
+    return (
         <div className="card mt-4 mb-4">
             <div className="card-header">
                 <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex justify-content-between align-items-center">
                         <div className="mr-2">
                             <img className="rounded-circle post-user-avatar" width="45" src={userAvatar} alt=""></img>
-                            <a className="post-user-link" href={userProfile}>{props.User.firstname} {props.User.lastname}</a>
+                            <a className="post-user-link"
+                               href={userProfile}>{props.User.firstname} {props.User.lastname}</a>
                         </div>
                     </div>
                     {(Owned || currentUser.isAdmin) ? (
                         <div>
                             <div className="dropdown">
-                                <button className="post-btn post-ellipsis-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button className="post-btn post-ellipsis-btn dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i className="fas fa-ellipsis-h"></i>
                                 </button>
                                 <ul className="dropdown-menu dropdown-menu-right">
-                                    <li className="dropdown-item post-delete-button text-muted" onClick={onDeleteClick} type="button" href="#"><i className="fas fa-trash"></i> Supprimer</li>
+                                    <li className="dropdown-item post-delete-button text-muted" onClick={onDeleteClick}
+                                        type="button" href="#"><i className="fas fa-trash"></i> Supprimer
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -116,14 +123,15 @@ const Post = (props) => {
                 </p>
             </div>
             <div className="post-footer d-flex">
-                <button onClick={handleLike} className="post-btn card-link d-flex flex-row justify-content-center align-items-center">
-                    { isLiked ?
-                        <i className="fas fa-heart"></i>  :  <i className="far fa-heart"></i>
+                <button onClick={handleLike}
+                        className="post-btn card-link d-flex flex-row justify-content-center align-items-center">
+                    {isLiked ?
+                        <i className="fas fa-heart"></i> : <i className="far fa-heart"></i>
                     }
                     <p className="likes-counter">{props.Likes.length}</p>
                 </button>
                 <button className="post-btn card-link" onClick={handleDisplayComment}>
-                    <i className="fa fa-comment"></i> Commentaires  {props.Comments.length}
+                    <i className="fa fa-comment"></i> Commentaires {props.Comments.length}
                 </button>
             </div>
             {displayComments ? (
@@ -139,7 +147,7 @@ const Post = (props) => {
 }
 
 function mapStateToProps(state) {
-    const { user } = state.user.data;
+    const {user} = state.user.data;
     return {
         user,
     }
