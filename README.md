@@ -1,38 +1,34 @@
-# GROUPOMANIA
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-"Groupomania" is the seventh project I worked on during my training with OpenClassrooms. In this scenario, I had to set up an internal social network. The aim of this tool was to facilitate interactions between colleagues in the fictitious company Groupomania.
+## Getting Started
 
-I had to create both the backend and the frontend with the technology of my choice. There was no specification for the graphic charter, nor any mock-up provided.
+First, run the development server:
 
-Stack utilisées :
-- **Backend** : Node.js, Express, MySQL, Sequelize
-- **Frontend** : React, Redux, Bootstrap
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-# SPECIFICATIONS
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-The following requirements were made by the steering committee:
-- [x] The presentation of the functionalities must be simple;
-- [x] The creation of an account must be simple and possible from a mobile phone;
-- [x] The profile should contain very little information so that it can be completed quickly;
-- [x] The deletion of the account must be possible;
-- [x] Access to a forum where employees post multimedia content should be present;
-- [x] Access to a forum where employees post texts must be present;
-- [x] Users should be able to easily find the latest employee contributions;
-- [x] The Groupomania communication officer must be able to moderate interactions between employees;
+You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-## Configuration de la base de donnée
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-- créer une base de donnée MySQL ``database_production``
-- configurer le mot-de-passe root pour l'accès à la base de donnée
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Installation du backend
+## Learn More
 
-- se placer dans le répertoire de l'api : ``cd api``
-- installer les dépendances : ``npm install``
-- lancer l'api : ``node server.js``
+To learn more about Next.js, take a look at the following resources:
 
-## Installation du frontend
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-- se placer dans le répertoire du frontend : ``cd groupomania``
-- installer les dépendances : ``npm install``
-- lancer l'application : ``npm start``
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
