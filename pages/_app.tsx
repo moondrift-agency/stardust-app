@@ -1,11 +1,13 @@
-import Head from "next/head"
+import Head from 'next/head'
+import { AuthProvider } from '../lib/auth'
+import { supabase } from '../lib/supabaseClient'
 
 import type { AppProps } from 'next/app'
 
 //theme
-import { Layout } from "../layouts/Layout"
+import { Layout } from '../layouts/Layout'
 import { Global } from '@emotion/react'
-import { globalStyles } from "../styles/global"
+import { globalStyles } from '../styles/global'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -18,6 +20,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <Layout>
         <Component {...pageProps} />
       </Layout>
+      {/* <AuthProvider supabase={supabase}>
+        
+      </AuthProvider> */}
     </>
-  );
+  )
 }

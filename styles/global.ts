@@ -14,8 +14,6 @@ export const globalStyles = css`
   body {
     font-family: 'Titillium Web';
     font-size: 1.6rem;
-    background: rgb(11, 0, 26);
-    color: hsl(204,23.8%,95.9%);
     cursor: default;
     height: 100%;
   }
