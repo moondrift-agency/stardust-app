@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Layouts/Navbar'
+import Footer from '../components/Layouts/Footer'
 // export const UserContext = React.createContext();
 
 interface LayoutProps {
@@ -11,6 +12,7 @@ export const Layout = ({ children }: LayoutProps) => {
     <>
       <Navbar />
       {children}
+      <Footer />
     </>
   )
 }
