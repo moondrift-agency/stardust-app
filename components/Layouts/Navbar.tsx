@@ -164,7 +164,17 @@ const Navbar = () => {
               </Menu>
             </Box>
           ) : (
-            <Button sx={{ color: 'white', display: 'block' }}>Connexion</Button>
+            <>
+              <Button sx={{ color: 'white', display: 'block' }} href="/login">
+                Connexion
+              </Button>
+              <Button
+                sx={{ color: 'white', display: 'block' }}
+                href="/register"
+              >
+                S'enregistrer
+              </Button>
+            </>
           )}
         </Toolbar>
       </Container>

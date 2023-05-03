@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Layouts/Navbar'
 import Footer from '../components/Layouts/Footer'
-import SupabaseProvider from '../supabase-provider'
+// import SupabaseProvider from '../supabase-provider'
 // export const UserContext = React.createContext();
 
 interface LayoutProps {
@@ -12,7 +12,7 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <Navbar />
-      {/* <SupabaseProvider>{children}</SupabaseProvider> */}
+      {children}
       <Footer />
     </>
   )
