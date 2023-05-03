@@ -40,7 +40,6 @@ export default function MyApp({
           </Layout>
         </ThemeProvider>
       </CacheProvider>
-      )
     </SessionContextProvider>
   )
 }

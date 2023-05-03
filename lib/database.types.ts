@@ -13,20 +13,26 @@ export interface Database {
         Row: {
           content: string;
           created_at: string;
-          id: number;
+          id: string;
           user: string;
+          title: string;
+          attachment: string;
         };
         Insert: {
           content: string;
           created_at?: string;
-          id?: number;
+          id?: string;
           user?: string;
+          title: string;
+          attachment: string;
         };
         Update: {
           content?: string;
           created_at?: string;
-          id?: number;
+          id?: string;
           user?: string;
+          title: string;
+          attachment: string;
         };
       };
     };
