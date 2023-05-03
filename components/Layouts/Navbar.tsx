@@ -19,14 +19,21 @@ import {
 } from '@supabase/auth-helpers-react'
 
 const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+const settings = ['Profile', 'Account', 'Dashboard']
 
 const Navbar = () => {
+  const supabase = useSupabaseClient()
   const user = useUser()
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
+
+  console.log('User : ', user)
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+  }
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
@@ -56,7 +63,7 @@ const Navbar = () => {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              fontFamily: 'Roboto',
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
@@ -100,6 +107,9 @@ const Navbar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem key="logout" onClick={handleLogout}>
+                <Typography textAlign="center">Se déconnecter</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -161,6 +171,9 @@ const Navbar = () => {
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
+                <MenuItem key="logout" onClick={handleLogout}>
+                  <Typography textAlign="center">Se déconnecter</Typography>
+                </MenuItem>
               </Menu>
             </Box>
           ) : (

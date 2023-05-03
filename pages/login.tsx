@@ -12,14 +12,24 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 const theme = createTheme()
 
 export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const supabase = useSupabaseClient()
+
+  async function signInWithDiscord() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'discord',
+    })
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
+
+    await supabase.auth.signInWithPassword({
       email: data.get('email'),
       password: data.get('password'),
     })
@@ -69,15 +79,15 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Rester connecté"
-            />
+            /> */}
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
               Se connecter
             </Button>
             <Button
-              type="submit"
+              onClick={signInWithDiscord}
               fullWidth
               variant="contained"
               sx={{ mt: 2, mb: 2 }}
@@ -85,14 +95,14 @@ export default function SignIn() {
               Se connecter avec Discord
             </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link href="/register" variant="body2">
+                  {"Pas encore inscrit? S'enregistrer"}
                 </Link>
               </Grid>
             </Grid>
