@@ -19,7 +19,6 @@ import {
 } from '@supabase/auth-helpers-react'
 
 const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard']
 
 const Navbar = () => {
   const supabase = useSupabaseClient()
@@ -102,13 +101,8 @@ const Navbar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-              <MenuItem key="logout" onClick={handleLogout}>
-                <Typography textAlign="center">Se déconnecter</Typography>
+              <MenuItem href="/">
+                <Typography textAlign="center">Accueil</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -132,15 +126,13 @@ const Navbar = () => {
             Stardust
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{ color: 'white', display: 'block' }}
+              href="/"
+            >
+              Accueil
+            </Button>
           </Box>
 
           {user ? (
@@ -166,11 +158,6 @@ const Navbar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
                 <MenuItem key="logout" onClick={handleLogout}>
                   <Typography textAlign="center">Se déconnecter</Typography>
                 </MenuItem>

@@ -9,16 +9,14 @@ import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import { GetServerSideProps } from 'next'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import {
-  useUser,
-  useSession,
-  useSupabaseClient,
-} from '@supabase/auth-helpers-react'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
 const theme = createTheme()
 
-export default function SignUp() {
+const SignUp = () => {
   const supabase = useSupabaseClient()
 
   async function signInWithDiscord() {
@@ -119,3 +117,29 @@ export default function SignUp() {
     </ThemeProvider>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = async function (ctx) {
+  // Create authenticated Supabase Client
+  const supabase = createServerSupabaseClient(ctx)
+  // Check if we have a session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (session)
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+
+  return {
+    props: {
+      initialSession: session,
+      user: session.user,
+    },
+  }
+}
+
+export default SignUp
